@@ -2,6 +2,7 @@
 package lesson2.task2
 
 import lesson1.task1.sqr
+import java.lang.Math.sqrt
 
 /**
  * Пример
@@ -37,7 +38,14 @@ fun isNumberHappy(number: Int): Boolean {
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  * Считать, что ферзи не могут загораживать друг друга.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = TODO()
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
+    val y = Math.abs( y2 - y1 )
+    val x = Math.abs( x2 - x1)
+    return when{
+        (y2 == y1)||(x2 == x1)||(y == x ) -> true
+        else -> false
+    }
+}
 
 /**
  * Средняя
@@ -47,7 +55,15 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = TODO()
  * Вернуть true, если утверждение верно
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
-                 x2: Double, y2: Double, r2: Double): Boolean = TODO()
+                 x2: Double, y2: Double, r2: Double): Boolean {
+    val r = sqrt( sqr(x2 -x1)+ sqr(y2 - y1) )
+    return when {
+        r + r2 == r1 -> true
+        else -> false
+    }
+}
+
+
 
 /**
  * Средняя
