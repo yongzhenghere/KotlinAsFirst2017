@@ -51,7 +51,7 @@ fun timeForHalfWay(t1: Double, v1: Double,
                    t3: Double, v3: Double): Double {
     val y = (v2 * t2 + v3 * t3 + t1 * v1)/ 2
     val time: Double
-    if( y < t1 * v1){
+    if( y <= t1 * v1){
         time  = y/ v1
     }
     else if (  y< v2 * t2 + v1 * t1){
@@ -95,11 +95,11 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
     val r: Int=  (bishopY - kingY )/ ( bishopX - kingX )
-    val q: Int=  Math.abs( r )
+    val q: Double=  Math.abs( r ).toDouble()
     return when {
-        ( rookX == kingX )|| (rookY == kingY)&& ( q == 1) -> 3
-        ( rookX == kingX )|| (rookY == kingY)&& ( q != 1) -> 1
-        ( rookX != kingX )&& (rookY != kingY)&& ( q == 1) -> 2
+        ( rookX == kingX )|| (rookY == kingY)&& ( q == 1.0 ) -> 3
+        ( rookX == kingX )|| (rookY == kingY)&& ( q != 1.0 ) -> 1
+        ( rookX != kingX )&& (rookY != kingY)&& ( q == 1.0 ) -> 2
         else -> 0
     }
 }
