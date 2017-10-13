@@ -34,9 +34,9 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String = when {
-    (age % 10 == 1)&& ( age % 100 != 11  ) -> age.toString() + " год"
-    (age % 10 in 2..4) && ( age  !in 12..14) &&(age !in 112..114) -> age.toString() + " года"
-    else ->   age.toString() + " лет"
+    (age % 10 == 1)&& ( age % 100 != 11  ) -> "$age год"
+    (age % 10 in 2..4) && ( age  !in 12..14) &&(age !in 112..114) ->  " $age года"
+    else ->  " $age лет"
 }
 
 /**
@@ -49,16 +49,16 @@ fun ageDescription(age: Int): String = when {
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
-    val y = (v2 * t2 + v3 * t3 + t1 * v1)/ 2
+    val halfJourney = (v2 * t2 + v3 * t3 + t1 * v1) / 2
     val time: Double
-    if( y <= t1 * v1){
-        time  = y/ v1
+    if( halfJourney <= t1 * v1){
+        time  = halfJourney / v1
     }
-    else if (  y< v2 * t2 + v1 * t1){
-        time = t1+ ( y - t1 * v1)/ v2
+    else if ( halfJourney < v2 * t2 + v1 * t1){
+        time = t1 + ( halfJourney - t1 * v1) / v2
     }
     else{
-        time = t1+ t2+ ( y - v2 * t2 - v1 * t1)/ v3
+        time = t1 + t2 + ( halfJourney - v2 * t2 - v1 * t1) / v3
     }
     return  time
 }
@@ -74,12 +74,12 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = when {
-    (rookX2 == kingX && rookY1== kingY)||(rookX1 == kingX && rookY2== kingY)||(rookY1== kingY && rookY2 == kingY)||(rookX1== kingX && rookX2 == kingX) -> 3
-    (rookY1 != kingY && (rookX2 == kingX || rookY2 == kingY ))||(rookX1 != kingX && (rookY2 == kingY || rookX2 == kingX )) -> 2
-    (rookY2 != kingY && (rookX1 == kingX || rookY1 == kingY ))||(rookX2 != kingX && (rookY1 == kingY || rookX1 == kingX )) -> 1
-    else -> 0
-}
+                       rookX2: Int, rookY2: Int): Int = when{
+        kingX != rookX1 && kingX != rookX2 && kingY != rookY1 && kingY != rookY2  -> 0
+        ( kingX == rookX1 || kingY == rookY1 ) && ( kingX != rookX2 && kingY != rookY2 ) -> 1
+        ( kingX == rookX2 || kingY == rookY2 ) && ( kingX != rookX1 && kingY != rookY1 ) -> 2
+        else -> 3
+    }
 
 /**
  * Простая
@@ -94,13 +94,13 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    val r: Int=  (bishopY - kingY )/ ( bishopX - kingX )
-    val q: Double=  Math.abs( r ).toDouble()
+    val r: Int =  Math.abs( bishopY - kingY )
+    val q: Int =  Math.abs( bishopX - kingX )
     return when {
-        ( rookX == kingX )|| (rookY == kingY)&& ( q == 1.0 ) -> 3
-        ( rookX == kingX )|| (rookY == kingY)&& ( q != 1.0 ) -> 1
-        ( rookX != kingX )&& (rookY != kingY)&& ( q == 1.0 ) -> 2
-        else -> 0
+        kingX != rookX && kingY != rookY && ( q != r ) -> 0
+        ( kingX == rookX || kingY == rookY ) && ( q!= r ) -> 1
+        q == r && ( kingX != rookX && kingY != rookY) -> 2
+        else -> 3
     }
 }
 /**
@@ -112,20 +112,15 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double):Int {
-    if((a + b <= c )|| (b + c <= a)||(a + c <= b)) return -1
-    else if((a >= b)&&(a >= c))
-       if( a*a < b*b + c*c) return 0
-        if( a*a == b*b +c*c) return 1
-        if( a*a > b*b +c*c) return 2
-     if((b >= c)&&(b >= a))
-        if( b*b < a*a + c*c) return 0
-        if(  b*b == a*a +c*c) return 1
-        if( b*b > a*a +c*c) return 2
-     if((c >= b)&&(c >= a))
-        if( c*c < b*b +a*a) return 0
-        if( c*c ==  b*b +a*a) return 1
-        if(  c*c > b*b +a*a) return 2
-    else  return -2
+    var d = Math.min(a, Math.min(b, c))
+    var e = Math.max(a, Math.max(b, c))
+    var f = a + b + c - d - e
+    if (f + d <= e) return -1
+    return when (f + d > e) {
+        f * f + d * d == e * e -> 1
+        f * f + d * d < e * e -> 2
+        else -> 0
+    }
 }
 /**
  * Средняя
@@ -136,12 +131,12 @@ fun triangleKind(a: Double, b: Double, c: Double):Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
- return   when {
-        ( a <= c)&&( c < b)&&( b <= d) -> b - c
-        ( c <= a)&&( b <= d ) -> b - a
-        ( a <= c)&&( d <= b ) -> d - c
-        ( c <= a)&&( a < d )&&( d <= b ) -> d - a
-        ( a == d)||( b == c) -> 0
+    return when {
+        (a <= c) && (c < b) && (b <= d) -> b - c
+        (c <= a) && (b <= d) -> b - a
+        (a <= c) && (d <= b) -> d - c
+        (c <= a) && (a < d) && (d <= b) -> d - a
+        (a == d) || (b == c) -> 0
         else -> -1
     }
 }
