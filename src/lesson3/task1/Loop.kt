@@ -66,11 +66,11 @@ fun digitNumber(n: Int): Int {
     var count = 0
     var number = Math.abs(n)
     if (n == 0) return 1
-    for (i in 1..Math.abs(n)) {
-        if (number >= 1) {
+    for (i in 1..number ) {
+        if ( number != 0 ) {
+            number /= 10
             count++
         }
-        number /= 10
     }
     return count
 }
