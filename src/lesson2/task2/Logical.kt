@@ -71,7 +71,7 @@ fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
     var e = Math.max(d, c)
     var g =  Math.min(r, s)
   return  when {
-        (a * b <= r * s)||( b * c <= r * s)||( a * c <= r * s)&&(e <= g) -> true
+        (a * b <= r * s)||( b * c <= r * s)||( a * c <= r * s)&&( e <= g ) -> true
         else -> false
     }
 }

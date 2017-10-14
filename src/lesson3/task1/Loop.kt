@@ -1,6 +1,8 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
 
+import kotlin.concurrent.timer
+
 /**
  * Пример
  *
@@ -62,9 +64,9 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  */
 fun digitNumber(n: Int): Int {
     var count = 0
-    var number = n
+    var number = Math.abs(n)
     if (n == 0) return 1
-    for (i in 1..n) {
+    for (i in 1..Math.abs(n)) {
         if (number >= 1) {
             count++
         }
@@ -80,8 +82,20 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    if((n == 1)||(n == 2)) return 1
-    else return fib(n - 1) + fib(n - 2)
+    var count = 2
+    var number1 = 1
+    var number2 = 1
+    var number3 = 0
+    if( n == 1 || n == 2 ) return 1
+    for( i in 1..n ) {
+        if ( count < n ) {
+            count++
+            number3 = number2
+            number2 += number1
+            number1 = number3
+        }
+    }
+    return number2
 }
 
 /**
@@ -90,21 +104,54 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var q = Math.max( m , n )
+    var r = Math.min( m , n )
+    var s = 0
+    var count = 0
+    for( i in 1..r){
+        if(( r % i == 0)&&( q % i == 0)) {
+            count ++
+            s = i
+        }
+    }
+    return m * n / s
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    var count = 0
+    var a = 0
+    for( i in 2..n ){
+        if( n % i != 0){
+            count ++
+        }
+        else {
+            a = i
+            break
+        }
+    }
+    return a
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    var number = n - 1
+    for( i in 1..n ){
+        if( n % number != 0){
+            number --
+        }
+    }
+    return number
+}
 
 /**
  * Простая
@@ -113,7 +160,18 @@ fun maxDivisor(n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean {
+    var c = Math.min( m , n )
+    var d = Math.max( m , n )
+    var e = 1
+    while( e != 0 ){
+        e = d % c
+        d = c
+        c = e
+    }
+     if( d  == 1 ) return true
+        else  return false
+}
 
 /**
  * Простая
