@@ -71,8 +71,9 @@ fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
     var e = Math.min( a,Math.min( b , c ))
     var f = a + b + c - d - e
     var g =  Math.min(r, s)
+    var h = r + s - g
   return  when {
-      ( e * f <= s * r )&&( e <= g ) -> true
+      (  f <= h )&&( e <= g ) -> true
         else -> false
     }
 }
