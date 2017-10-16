@@ -196,8 +196,23 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double = TODO()
-
+fun sin(x: Double, eps: Double): Double {
+    var count = 1.0
+    var sum = 0.0
+    var number = x
+    for (i in 1..Int.MAX_VALUE) {
+        var fact = count
+        while ( fact > 1.0 ) {
+            fact = fact * ( fact - 1 )
+            count ++
+        }
+        number = Math.pow( -1.0 , i + 1.0 ) * Math.pow( x , count ) / fact
+        sum += number
+        count += 2
+        if (x < eps) break
+    }
+    return sum
+}
 /**
  * Средняя
  *
@@ -238,23 +253,75 @@ fun isPalindrome(n: Int): Boolean {
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    var number = Math.abs( n )
+    var lastFigure = 0
+    if( number < 10 ) return false
+    while( number > 10 ) {
+        lastFigure = number % 10
+        number /= 10
+        if( number % 10 != lastFigure ) return true
+    }
+    return false
 }
 
+
 /**
- * Сложная
+ * сложная
  *
  * Найти n-ю цифру последовательности из квадратов целых чисел:
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var length = 0L
+    var number = 0L
+    var numberSquare = 0L
+    do {
+        number++
+        numberSquare = number * number
+        length += digitNumber(numberSquare.toInt())
+    } while ( length < n )
+    return when {
+        length == 1L -> 1
+        length.toInt() == n -> numberSquare.toInt() % 10
+        else -> {
+            val another = length.toInt() - n
+            var result = numberSquare
+            for (i in 1..another) {
+                result /= 10
+            }
+            return result.toInt() % 10
+        }
+    }
+}
 
 /**
- * Сложная
+ * сложная
  *
  * Найти n-ю цифру последовательности из чисел Фибоначчи (см. функцию fib выше):
- * 1123581321345589144...
+ * 1 1 2 3 5 8 13 21 34 55 89 144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var length = 0L
+    var number = 0L
+    var fibNumber = 0L
+    do {
+        number ++
+        fibNumber = fib( number.toInt() ).toLong()
+        length += digitNumber( fibNumber.toInt() )
+    } while ( length < n )
+    return when {
+        length == 1L -> 1
+        length.toInt() == n -> fibNumber .toInt() % 10
+        else -> {
+            val another = length.toInt() - n
+            var result = fibNumber
+            for ( i in 1..another ) {
+                result /= 10
+            }
+            return result.toInt() % 10
+        }
+    }
+}
