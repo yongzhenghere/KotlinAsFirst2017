@@ -197,19 +197,15 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun sin(x: Double, eps: Double): Double {
-    var count = 1.0
-    var sum = 0.0
-    var number = x
-    for (i in 1..Int.MAX_VALUE) {
-        var fact = count
-        while ( fact > 1.0 ) {
-            fact = fact * ( fact - 1 )
-            count ++
-        }
-        number = Math.pow( -1.0 , i + 1.0 ) * Math.pow( x , count ) / fact
-        sum += number
-        count += 2
-        if (x < eps) break
+    var quality: Double = x % ( Math.PI * 2 )
+   var sum = quality
+    var mult = quality
+    var count = 0
+    while( Math.abs( mult ) >= eps ) {
+        count ++
+        mult = Math.pow( quality , 2 * count + 1.0 )  / factorial( 2 * count + 1 )
+        if( count % 2 == 0 ) sum += mult
+        else sum -= mult
     }
     return sum
 }
@@ -220,7 +216,19 @@ fun sin(x: Double, eps: Double): Double {
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double {
+    var quality: Double = x % ( Math.PI * 2 )
+    var sum = 1.0
+    var mult = quality
+    var count = 0
+    while( Math.abs( mult ) >= eps ) {
+        count ++
+        mult = Math.pow( quality , 2.0 * count )  / factorial( 2 * count )
+        if( count % 2 == 0 ) sum += mult
+        else sum -= mult
+    }
+    return sum
+}
 
 /**
  * Средняя
@@ -308,17 +316,17 @@ fun fibSequenceDigit(n: Int): Int {
     var number = 0L
     var fibNumber = 0L
     do {
-        number ++
-        fibNumber = fib( number.toInt() ).toLong()
-        length += digitNumber( fibNumber.toInt() )
-    } while ( length < n )
+        number++
+        fibNumber = fib(number.toInt()).toLong()
+        length += digitNumber(fibNumber.toInt())
+    } while (length < n)
     return when {
         length == 1L -> 1
-        length.toInt() == n -> fibNumber .toInt() % 10
+        length.toInt() == n -> fibNumber.toInt() % 10
         else -> {
             val another = length.toInt() - n
             var result = fibNumber
-            for ( i in 1..another ) {
+            for (i in 1..another) {
                 result /= 10
             }
             return result.toInt() % 10
