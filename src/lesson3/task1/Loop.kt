@@ -197,7 +197,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun sin(x: Double, eps: Double): Double {
-    var quality: Double = x % ( Math.PI * 2 )
+    val quality: Double = x % ( Math.PI * 2 )
    var sum = quality
     var mult = quality
     var count = 0
@@ -217,7 +217,7 @@ fun sin(x: Double, eps: Double): Double {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun cos(x: Double, eps: Double): Double {
-    var quality: Double = x % ( Math.PI * 2 )
+    val quality: Double = x % ( Math.PI * 2 )
     var sum = 1.0
     var mult = quality
     var count = 0
