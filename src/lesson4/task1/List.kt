@@ -251,8 +251,18 @@ fun convert(n: Int, base: Int): List<Int> {
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
-
+fun convertToString(n: Int, base: Int): String {
+    val wordlist = mutableListOf<Char>()
+    val list = convert(n,base)
+    if( n == 0 ) return listOf(0).toString()
+    for( element in list ) {
+        when {
+            element <= 9 -> wordlist.add( '0' + element )
+            else -> wordlist.add( 'a' + element - 10 )
+        }
+    }
+        return wordlist.joinToString("" )
+    }
 /**
  * Средняя
  *
@@ -260,7 +270,13 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int {
+  var sum = 0
+    for( i in 0 until digits.size) {
+        sum += digits[i] * Math.pow( base.toDouble() , (digits.size - i - 1).toDouble() ).toInt()
+    }
+    return sum
+}
 
 /**
  * Сложная
@@ -271,7 +287,15 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+fun decimalFromString(str: String, base: Int): Int {
+    val list = mutableListOf<Int>()
+    val string = str
+       for( i in 0 until str.length ) {
+           if( string[i] in '0'..'9') list += string[i].toInt() - 48
+           else list += string[i].toInt() - 87
+       }
+    return decimal( list , base )
+}
 
 /**
  * Сложная
