@@ -295,7 +295,7 @@ fun squareSequenceDigit(n: Int): Int {
         length.toInt() == n -> numberSquare.toInt() % 10
         else -> {
             val another = length.toInt() - n
-            var result = numberSquare
+            var result = numberSquare.toInt()
             for (i in 1..another) {
                 result /= 10
             }

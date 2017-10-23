@@ -18,10 +18,7 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Четырехзначное число назовем счастливым, если сумма первых двух ее цифр равна сумме двух последних.
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
-fun isNumberHappy(number: Int): Boolean = when {
-    number % 100 / 10 +  number % 100 % 10 == number / 100 % 10 + number / 1000 -> true
-    else -> false
-    }
+fun isNumberHappy(number: Int): Boolean = number % 100 / 10 +  number % 100 % 10 == number / 100 % 10 + number / 1000
 
 /**
  * Простая
@@ -33,10 +30,7 @@ fun isNumberHappy(number: Int): Boolean = when {
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
     val y = Math.abs( y2 - y1 )
     val x = Math.abs( x2 - x1)
-    return when{
-        (y2 == y1)||(x2 == x1)||(y == x ) -> true
-        else -> false
-    }
+    return (y2 == y1)||(x2 == x1)||(y == x )
 }
 
 /**
@@ -49,10 +43,7 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean {
     val r = sqrt( sqr(x2 -x1)+ sqr(y2 - y1) )
-    return when {
-        r + r1 <= r2 -> true
-        else -> false
-    }
+    return r + r1 <= r2
 }
 
 
@@ -67,13 +58,10 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    var d = Math.max( a,Math.max( b , c ))
-    var e = Math.min( a,Math.min( b , c ))
-    var f = a + b + c - d - e
-    var g =  Math.min(r, s)
-    var h = r + s - g
-  return  when {
-      (  f <= h )&&( e <= g ) -> true
-        else -> false
-    }
+    val d = Math.max( a,Math.max( b , c ))
+    val e = Math.min( a,Math.min( b , c ))
+    val f = a + b + c - d - e
+    val g =  Math.min(r, s)
+    val h = r + s - g
+  return  ( f <= h )&&( e <= g )
 }
