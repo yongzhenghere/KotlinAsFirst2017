@@ -254,7 +254,7 @@ fun convert(n: Int, base: Int): List<Int> {
 fun convertToString(n: Int, base: Int): String {
     val wordlist = mutableListOf<Char>()
     val list = convert(n,base)
-    if( n == 0 ) return listOf(0).toString()
+    if( n == 0 ) return 0.toString()
     for( element in list ) {
         when {
             element <= 9 -> wordlist.add( '0' + element )
