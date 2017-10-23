@@ -285,11 +285,11 @@ fun squareSequenceDigit(n: Int): Int {
     var length = 0L
     var number = 0L
     var numberSquare = 0L
-    do {
+    while ( length < n ) {
         number++
         numberSquare = number * number
         length += digitNumber(numberSquare.toInt())
-    } while ( length < n )
+    }
     return when {
         length == 1L -> 1
         length.toInt() == n -> numberSquare.toInt() % 10
