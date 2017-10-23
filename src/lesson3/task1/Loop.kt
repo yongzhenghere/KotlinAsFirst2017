@@ -286,17 +286,17 @@ fun squareSequenceDigit(n: Int): Int {
     var number = 0L
     var numberSquare = 0L
     while ( length < n ) {
-        number++
+        number ++
         numberSquare = number * number
-        length += digitNumber(numberSquare.toInt())
+        length += digitNumber( numberSquare.toInt() )
     }
     return when {
         length == 1L -> 1
         length.toInt() == n -> numberSquare.toInt() % 10
         else -> {
-            val another = length.toInt() - n
+            val delta = length.toInt() - n
             var result = numberSquare.toInt()
-            for (i in 1..another) {
+            for ( i in 1..delta ){
                 result /= 10
             }
             return result.toInt() % 10
