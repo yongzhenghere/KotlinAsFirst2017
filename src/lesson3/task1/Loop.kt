@@ -283,20 +283,20 @@ fun hasDifferentDigits(n: Int): Boolean {
  */
 fun squareSequenceDigit(n: Int): Int {
     var Length = 0L
-    var number = 0L
+    var num = 0L
     var numsqr = 0L
-    while ( Length < n ) {
-        number ++
-        numsqr = number * number
-        Length += digitNumber(numsqr.toInt())
+    while( Length < n ) {
+        num ++
+        numsqr = num * num
+        Length += digitNumber( numsqr.toInt() )
     }
-    return when {
+    return when{
         Length == 1L -> 1
         Length.toInt() == n -> numsqr.toInt() % 10
         else -> {
             val delta = Length.toInt() - n
             var result = numsqr.toInt()
-            for (i in 1..delta) {
+            for ( i in 1..delta ) {
                 result /= 10
             }
             return result.toInt() % 10
