@@ -343,7 +343,8 @@ fun russian(n: Int): String {
         if( n / 100 == 9 ) result += "девятьсот"
         num %= 100
         if ( num in 10..19 ) {
-            if( num % 10 == 1 ) result += " десять"
+            if( num % 10 == 0 ) result += " десять"
+            if( num % 10 == 1 ) result += " одиннадцать"
             if( num % 10 == 2 ) result += " двенадцать"
             if( num % 10 == 3 ) result += " тринадцать"
             if( num % 10 == 4 ) result += " четырнадцать"
