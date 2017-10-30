@@ -328,4 +328,71 @@ fun roman(n: Int): String = TODO()/*{
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    var result = String()
+    var num = n
+    if ( n < 1000 ) {
+        if( n / 100 == 1 ) result += "сто"
+        if( n / 100 == 2 ) result += "двести"
+        if( n / 100 == 3 ) result += "триста"
+        if( n / 100 == 4 ) result += "четыреста"
+        if( n / 100 == 5 ) result += "пятьсот"
+        if( n / 100 == 6 ) result += "шестьсот"
+        if( n / 100 == 7 ) result += "семьсот"
+        if( n / 100 == 8 ) result += "восемьсот"
+        if( n / 100 == 9 ) result += "девятьсот"
+        num %= 100
+        if ( num in 10..19 ) {
+            if( num % 10 == 1 ) result += " десять"
+            if( num % 10 == 2 ) result += " двенадцать"
+            if( num % 10 == 3 ) result += " тринадцать"
+            if( num % 10 == 4 ) result += " четырнадцать"
+            if( num % 10 == 5 ) result += " пятнадцать"
+            if( num % 10 == 6 ) result += " шестнадцать"
+            if( num % 10 == 7 ) result += " семнадцать"
+            if( num % 10 == 8 ) result += " восемнадцать"
+            if( num % 10 == 9 ) result += " девятнадцать"
+        } else {
+            val p = num / 10
+            if( p == 2 ) result += " двадцать"
+            if( p == 3 ) result += " тридцать"
+            if( p == 4 ) result += " сорок"
+            if( p == 5 ) result += " пятьдесят"
+            if( p == 6 ) result += " шестьдесят"
+            if( p == 7 ) result += " семьдесят"
+            if( p == 8 ) result += " восемьдесят"
+            if( p == 9 ) result += " девяносто"
+            num %= 10
+            if( num == 1 ) result += " один"
+            if( num == 2 ) result += " два"
+            if( num == 3 ) result += " три"
+            if( num == 4 ) result += " четыре"
+            if( num == 5 ) result += " пять"
+            if( num == 6 ) result += " шесть"
+            if( num == 7 ) result += " семь"
+            if( num == 8 ) result += " восемь"
+            if( num == 9 ) result += " девять"
+        }
+    } else {
+    var thous = num / 1000
+    val unit = num % 1000
+    var t = 1
+    if (( thous % 10 == 1 ) && (thous % 100 != 11 )) {
+        thous = ( thous / 10 ) * 10
+        t = 0
+    }
+    if (( thous % 10 == 2 ) && (thous % 100 !in 12..14 )) {
+        thous = ( thous / 10 ) * 10
+        t = 2
+    }
+    var step1 = russian(thous)
+    val step2 = russian(unit)
+    if (( thous % 10 == 0 )&&( t == 1 )) step1 += " тысяч "
+    if (( thous % 10 in 2..4 ) &&( thous % 100 !in 12..14 )) step1 += " тысячи "
+    if (( thous % 10 in 5..9 )||( thous % 100 in 12..14 )) step1 += " тысяч "
+    if ( t == 0 ) step1 += " одна тысяча "
+    if ( t == 2 ) step1 += " две тысячи "
+    result = step1 + step2
+}
+return result.trim()
+}

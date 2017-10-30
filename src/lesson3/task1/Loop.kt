@@ -285,7 +285,7 @@ fun squareSequenceDigit(n: Int): Int {
     var Length = 0L
     var num = 0L
     var numsqr = 0L
-    while( Length < n ) {
+    while( Length < n ){
         num ++
         numsqr = num * num
         Length += digitNumber( numsqr.toInt() )
@@ -296,7 +296,7 @@ fun squareSequenceDigit(n: Int): Int {
         else -> {
             val delta = Length.toInt() - n
             var result = numsqr.toInt()
-            for ( i in 1..delta ) {
+            for ( i in 1..delta ){
                 result /= 10
             }
             return result.toInt() % 10
