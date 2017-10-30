@@ -343,16 +343,16 @@ fun russian(n: Int): String {
         if( n / 100 == 9 ) result += "девятьсот"
         num %= 100
         if ( num in 10..19 ) {
-            if( num % 10 == 0 ) result += " десять"
-            if( num % 10 == 1 ) result += " одиннадцать"
-            if( num % 10 == 2 ) result += " двенадцать"
-            if( num % 10 == 3 ) result += " тринадцать"
-            if( num % 10 == 4 ) result += " четырнадцать"
-            if( num % 10 == 5 ) result += " пятнадцать"
-            if( num % 10 == 6 ) result += " шестнадцать"
-            if( num % 10 == 7 ) result += " семнадцать"
-            if( num % 10 == 8 ) result += " восемнадцать"
-            if( num % 10 == 9 ) result += " девятнадцать"
+            if( num == 10 ) result += " десять"
+            if( num == 11 ) result += " одиннадцать"
+            if( num == 12 ) result += " двенадцать"
+            if( num == 13 ) result += " тринадцать"
+            if( num == 14 ) result += " четырнадцать"
+            if( num == 15 ) result += " пятнадцать"
+            if( num == 16 ) result += " шестнадцать"
+            if( num == 17 ) result += " семнадцать"
+            if( num == 18 ) result += " восемнадцать"
+            if( num == 19 ) result += " девятнадцать"
         } else {
             val p = num / 10
             if( p == 2 ) result += " двадцать"
@@ -389,6 +389,7 @@ fun russian(n: Int): String {
     var step1 = russian(thous)
     val step2 = russian(unit)
     if (( thous % 10 == 0 )&&( t == 1 )) step1 += " тысяч "
+     if ( thous % 100 == 11 ) step1 += " тысяч "
     if (( thous % 10 in 2..4 ) &&( thous % 100 !in 12..14 )) step1 += " тысячи "
     if (( thous % 10 in 5..9 )||( thous % 100 in 12..14 )) step1 += " тысяч "
     if ( t == 0 ) step1 += " одна тысяча "
