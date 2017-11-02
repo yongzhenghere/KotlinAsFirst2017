@@ -282,7 +282,19 @@ fun hasDifferentDigits(n: Int): Boolean {
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var Length = 0L
+    val list = mutableListOf<Int>()
+    var num = n
+    for( i in 1..n ) {
+        list.add( i * i )
+    }
+    val str = list.joinToString("")
+    for( char in str ){
+        val string = str[n-1]
+        num = string.toInt()-'0'.toInt()
+    }
+return num
+}
+   /* var Length = 0L
     var num = 0L
     var numsqr = 0L
     while( Length < n ){
@@ -302,7 +314,7 @@ fun squareSequenceDigit(n: Int): Int {
             return result.toInt() % 10
         }
     }
-}
+}*/
 /**
  * сложная
  *
