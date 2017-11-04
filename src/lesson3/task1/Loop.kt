@@ -64,17 +64,14 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  */
 fun digitNumber(n: Int): Int {
     var count = 0
-    var number = Math.abs(n)
-    if (n == 0) return 1
-    for (i in 1..number ) {
-        if ( number != 0 ) {
-            number /= 10
-            count++
-        }
+    var num = Math.abs( n )
+    if( n == 0 ) return 1
+    while( num != 0 ) {
+        num /= 10
+        count++
     }
     return count
 }
-
 /**
  * Простая
  *
@@ -83,21 +80,18 @@ fun digitNumber(n: Int): Int {
  */
 fun fib(n: Int): Int {
     var count = 2
-    var number1 = 1
-    var number2 = 1
-    var number3 = 0
+    var antecedent = 1
+    var consequent = 1
+    var override = 0
     if( n == 1 || n == 2 ) return 1
-    for( i in 1..n ) {
-        if ( count < n ) {
-            count++
-            number3 = number2
-            number2 += number1
-            number1 = number3
+    while( count < n ) {
+        count++
+        override = consequent
+        consequent += antecedent
+        antecedent = override
         }
-    }
-    return number2
+    return consequent
 }
-
 /**
  * Простая
  *
@@ -105,39 +99,26 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var q = Math.max( m , n )
-    var r = Math.min( m , n )
-    var s = 0
-    var count = 0
-    for( i in 1..r){
-        if(( r % i == 0)&&( q % i == 0)) {
-            count ++
-            s = i
-        }
+    var maxNum = Math.max( m , n )
+    var minNum = Math.min( m , n )
+    var remainder = 0
+    while( minNum != 0 ) {
+        remainder = maxNum % minNum
+        maxNum = minNum
+        minNum = remainder
     }
-    return m * n / s
+    return m * n / maxNum
 }
-
-/**
+/** +
  * Простая
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var count = 0
-    var a = 0
-    for( i in 2..n ){
-        if( n % i != 0){
-            count ++
-        }
-        else {
-            a = i
-            break
-        }
-    }
-    return a
+    var t = 2
+    while( n % t != 0 ) t++
+    return t
 }
-
 /**
  * Простая
  *
@@ -145,11 +126,9 @@ fun minDivisor(n: Int): Int {
  */
 fun maxDivisor(n: Int): Int {
     var number = n - 1
-    for( i in 1..n ){
-        if( n % number != 0){
-            number --
+    while( n % number != 0 ) {
+            number--
         }
-    }
     return number
 }
 
@@ -161,16 +140,15 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    var c = Math.min( m , n )
-    var d = Math.max( m , n )
-    var e = 1
-    while( e != 0 ){
-        e = d % c
-        d = c
-        c = e
+    var minNumber = Math.min( m , n )
+    var maxNumber = Math.max( m , n )
+    var remainder = 1
+    while( remainder != 0 ){
+        remainder = maxNumber % minNumber
+        maxNumber = minNumber
+        minNumber = remainder
     }
-     if( d  == 1 ) return true
-        else  return false
+     return maxNumber == 1
 }
 
 /**
@@ -182,13 +160,12 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     var k = 0
-    while ( k * k in 0..n ){
+    while( k * k in 0..n ){
         if( k * k in m..n ) return true
-        k ++
+        k++
     }
     return false
 }
-
 /**
  * Средняя
  *
@@ -197,15 +174,15 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun sin(x: Double, eps: Double): Double {
-    val quality: Double = x % ( Math.PI * 2 )
-   var sum = quality
-    var mult = quality
+    val base: Double = x % ( Math.PI * 2 )
+    var sum = base
+    var mult = base
     var count = 0
     while( Math.abs( mult ) >= eps ) {
-        count ++
-        mult = Math.pow( quality , 2 * count + 1.0 )  / factorial( 2 * count + 1 )
-        if( count % 2 == 0 ) sum += mult
-        else sum -= mult
+        count++
+        val num = 2 * count + 1.0
+        mult = Math.pow( base , num ) / factorial( num.toInt() )
+        sum += mult * Math.pow( -1.0 , count.toDouble() )
     }
     return sum
 }
@@ -217,19 +194,18 @@ fun sin(x: Double, eps: Double): Double {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun cos(x: Double, eps: Double): Double {
-    val quality: Double = x % ( Math.PI * 2 )
+    val base: Double = x % ( Math.PI * 2 )
     var sum = 1.0
-    var mult = quality
+    var mult = base
     var count = 0
     while( Math.abs( mult ) >= eps ) {
-        count ++
-        mult = Math.pow( quality , 2.0 * count )  / factorial( 2 * count )
-        if( count % 2 == 0 ) sum += mult
-        else sum -= mult
+        count++
+        val num = 2.0 * count
+        mult = Math.pow( base , num )  / factorial( num.toInt() )
+        sum += mult * Math.pow( -1.0 , count.toDouble() )
     }
     return sum
 }
-
 /**
  * Средняя
  *
@@ -237,9 +213,13 @@ fun cos(x: Double, eps: Double): Double {
  * Не использовать строки при решении задачи.
  */
 fun revert(n: Int): Int {
-    val firstDigit = n.toString()
-    val secondDigit: String = firstDigit.reversed()
-    return secondDigit.toInt()
+    var num = n
+    var sum = 0
+    while( num != 0 ) {
+        sum = sum * 10 + num % 10
+        num /= 10
+    }
+    return sum
 }
 /**
  * Средняя
@@ -248,12 +228,7 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean {
-    val firstDigit = n.toString()
-    val secondDigit: String = firstDigit.reversed()
-    if ( firstDigit == secondDigit ) return true
-    else return false
-}
+fun isPalindrome(n: Int): Boolean = n == revert( n )
 
 /**
  * Средняя
@@ -263,12 +238,12 @@ fun isPalindrome(n: Int): Boolean {
  */
 fun hasDifferentDigits(n: Int): Boolean {
     var number = Math.abs( n )
-    var lastFigure = 0
+    var lastDigit = 0
     if( number < 10 ) return false
     while( number > 10 ) {
-        lastFigure = number % 10
+        lastDigit = number % 10
         number /= 10
-        if( number % 10 != lastFigure ) return true
+        if( number % 10 != lastDigit ) return true
     }
     return false
 }
@@ -282,39 +257,27 @@ fun hasDifferentDigits(n: Int): Boolean {
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
 fun squareSequenceDigit(n: Int): Int {
-    val list = mutableListOf<Int>()
-    var num = n
-    for( i in 1..n ) {
-        list.add( i * i )
-    }
-    val str = list.joinToString("")
-    for( char in str ){
-        val string = str[n-1]
-        num = string.toInt()-'0'.toInt()
-    }
-return num
-}
-   /* var Length = 0L
-    var num = 0L
-    var numsqr = 0L
+    var Length = 0
+    var num = 0
+    var numsqr = 0
     while( Length < n ){
         num ++
         numsqr = num * num
-        Length += digitNumber( numsqr.toInt() )
+        Length += digitNumber( numsqr )
     }
     return when{
-        Length == 1L -> 1
-        Length.toInt() == n -> numsqr.toInt() % 10
+        Length == 1 -> 1
+        Length == n -> numsqr % 10
         else -> {
-            val delta = Length.toInt() - n
-            var result = numsqr.toInt()
+            val delta = Length - n
+            var result = numsqr
             for ( i in 1..delta ){
                 result /= 10
             }
-            return result.toInt() % 10
+            return result % 10
         }
     }
-}*/
+}
 /**
  * сложная
  *
@@ -323,24 +286,24 @@ return num
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int {
-    var length = 0L
-    var number = 0L
-    var fibNumber = 0L
-    do {
+    var length = 0
+    var number = 0
+    var fibNumber = 0
+    while( length < n ) {
         number++
-        fibNumber = fib(number.toInt()).toLong()
-        length += digitNumber(fibNumber.toInt())
-    } while (length < n)
+        fibNumber = fib( number )
+        length += digitNumber( fibNumber )
+    }
     return when {
-        length == 1L -> 1
-        length.toInt() == n -> fibNumber.toInt() % 10
+        length == 1 -> 1
+        length == n -> fibNumber % 10
         else -> {
-            val another = length.toInt() - n
+            val delta = length - n
             var result = fibNumber
-            for (i in 1..another) {
+            for( i in 1..delta ) {
                 result /= 10
             }
-            return result.toInt() % 10
+            return result % 10
         }
     }
 }
