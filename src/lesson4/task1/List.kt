@@ -108,8 +108,8 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 fun abs(v: List<Double>): Double {
     var sum = 0.0
-    for( i in 0 until v.size ) {
-        sum += v[i] * v[i]
+    for( element in v ) {
+        sum += element * element
     }
     return Math.sqrt( sum )
 }
@@ -120,12 +120,8 @@ fun abs(v: List<Double>): Double {
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double {
-    var sum = 0.0
-    if( list.size == 0 ) return 0.0
-    for( i in 0 until list.size ) {
-        sum += list[i]
-    }
-        return sum / list.size
+    if( list.isEmpty() ) return 0.0
+        return list.sum() / list.size
 }
 
 /**
@@ -137,7 +133,7 @@ fun mean(list: List<Double>): Double {
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    var mean = mean(list)
+    val mean = mean(list)
     for (i in 0 until list.size) {
         list[i] -= mean
     }
@@ -154,7 +150,6 @@ fun times(a: List<Double>, b: List<Double>): Double {
     var c = 0.0
     for( i in 0 until a.size ) {
         c += a[i] * b[i]
-        if( c == 0.0 ) return 0.0
     }
     return c
 }
@@ -169,11 +164,8 @@ fun times(a: List<Double>, b: List<Double>): Double {
  */
 fun polynom(p: List<Double>, x: Double): Double {
     var sum1 = 0.0
-    var sum2 = 0.0
     for( i in 0 until p.size ) {
-        sum1 += p[i] * Math.pow( x , sum2 )
-        sum2 ++
-        if( sum1 == 0.0 ) return 0.0
+        sum1 += p[i] * Math.pow( x , i.toDouble() )
     }
     return sum1
 }
@@ -189,14 +181,11 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    var t = 0.0
-    for( i in 0 until list.size ) {
-        t += list[i]
-        list[i] = t
-    }
-    return list
+        for( i in 1 until list.size ) {
+            list[i] += list[i-1]
+        }
+        return list
 }
-
 /**
  * Средняя
  *
@@ -209,7 +198,7 @@ fun factorize(n: Int): List<Int> {
    var count = 2
     var number = n
     while( number != 1 ) {
-        while (number % count == 0) {
+        while( number % count == 0 ) {
             list.add(count)
             number /= count
         }
@@ -224,7 +213,7 @@ fun factorize(n: Int): List<Int> {
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String = factorize(n).joinToString ("*" )
+fun factorizeToString(n: Int): String = factorize(n).joinToString ("*")
 /**
  * Средняя
  *
@@ -237,9 +226,9 @@ fun convert(n: Int, base: Int): List<Int> {
     var num = n
     if( num == 0 )  return listOf(0)
     while( num > 0 ) {
-            list.add( num % base )
-            num /= base
-        }
+        list.add( num % base )
+        num /= base
+    }
     return list.reversed()
 }
 
@@ -273,7 +262,8 @@ fun convertToString(n: Int, base: Int): String {
 fun decimal(digits: List<Int>, base: Int): Int {
   var sum = 0
     for( i in 0 until digits.size) {
-        sum += digits[i] * Math.pow( base.toDouble() , (digits.size - i - 1).toDouble() ).toInt()
+        val power = digits.size - i - 1.0
+        sum += digits[i] * Math.pow( base.toDouble() , power ).toInt()
     }
     return sum
 }
@@ -291,8 +281,8 @@ fun decimalFromString(str: String, base: Int): Int {
     val list = mutableListOf<Int>()
     val string = str
        for( i in 0 until str.length ) {
-           if( string[i] in '0'..'9') list += string[i].toInt() - 48
-           else list += string[i].toInt() - 87
+           if( string[i] in '0'..'9') list += string[i].toInt() - '0'.toInt()
+           else list += string[i].toInt() - 'a'.toInt() + 10
        }
     return decimal( list , base )
 }
@@ -331,48 +321,32 @@ fun roman(n: Int): String = TODO()/*{
 fun russian(n: Int): String {
     var result = String()
     var num = n
+    val list1 = listOf<String>( "сто","двести","триста","четыреста","пятьсот",
+            "шестьсот","семьсот","восемьсот","девятьсот" )
+    val list2 = listOf<String>( " десять"," одиннадцать"," двенадцать",
+            " тринадцать"," четырнадцать"," пятнадцать"," шестнадцать",
+            " семнадцать"," восемнадцать"," девятнадцать" )
+    val list3 = listOf<String>( " двадцать"," тридцать"," сорок"," пятьдесят",
+            " шестьдесят"," семьдесят"," восемьдесят"," девяносто" )
+    val list4 = listOf<String>( " один"," два"," три"," четыре"," пять"," шесть",
+            " семь"," восемь"," девять" )
     if ( n < 1000 ) {
-        if( n / 100 == 1 ) result += "сто"
-        if( n / 100 == 2 ) result += "двести"
-        if( n / 100 == 3 ) result += "триста"
-        if( n / 100 == 4 ) result += "четыреста"
-        if( n / 100 == 5 ) result += "пятьсот"
-        if( n / 100 == 6 ) result += "шестьсот"
-        if( n / 100 == 7 ) result += "семьсот"
-        if( n / 100 == 8 ) result += "восемьсот"
-        if( n / 100 == 9 ) result += "девятьсот"
+        val digit = n / 100
+        if( digit in 1..9 ) {
+            result += list1[digit-1]
+        }
         num %= 100
         if ( num in 10..19 ) {
-            if( num == 10 ) result += " десять"
-            if( num == 11 ) result += " одиннадцать"
-            if( num == 12 ) result += " двенадцать"
-            if( num == 13 ) result += " тринадцать"
-            if( num == 14 ) result += " четырнадцать"
-            if( num == 15 ) result += " пятнадцать"
-            if( num == 16 ) result += " шестнадцать"
-            if( num == 17 ) result += " семнадцать"
-            if( num == 18 ) result += " восемнадцать"
-            if( num == 19 ) result += " девятнадцать"
+            result += list2[num-10]
         } else {
             val p = num / 10
-            if( p == 2 ) result += " двадцать"
-            if( p == 3 ) result += " тридцать"
-            if( p == 4 ) result += " сорок"
-            if( p == 5 ) result += " пятьдесят"
-            if( p == 6 ) result += " шестьдесят"
-            if( p == 7 ) result += " семьдесят"
-            if( p == 8 ) result += " восемьдесят"
-            if( p == 9 ) result += " девяносто"
+            if( p in 2..9 ) {
+                result += list3[p-2]
+            }
             num %= 10
-            if( num == 1 ) result += " один"
-            if( num == 2 ) result += " два"
-            if( num == 3 ) result += " три"
-            if( num == 4 ) result += " четыре"
-            if( num == 5 ) result += " пять"
-            if( num == 6 ) result += " шесть"
-            if( num == 7 ) result += " семь"
-            if( num == 8 ) result += " восемь"
-            if( num == 9 ) result += " девять"
+            if( num in 1..9 ) {
+                result += list4[num-1]
+            }
         }
     } else {
     var thous = num / 1000
