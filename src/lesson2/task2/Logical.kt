@@ -19,7 +19,9 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
 fun isNumberHappy(number: Int): Boolean {
-    return number % 100 / 10 +  number % 100 % 10 == number / 100 % 10 + number / 1000
+    val num1 = number % 100 / 10 +  number % 100 % 10
+    val num2 = number / 100 % 10 + number / 1000
+    return num1 == num2
 }
 
 /**
@@ -30,9 +32,9 @@ fun isNumberHappy(number: Int): Boolean {
  * Считать, что ферзи не могут загораживать друг друга.
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    val ordDifference = Math.abs( y2 - y1 )
-    val absDifference = Math.abs( x2 - x1 )
-    return ( y2 == y1 )||( x2 == x1 )||( ordDifference == absDifference )
+    val deltay = Math.abs( y2 - y1 )
+    val deltax = Math.abs( x2 - x1 )
+    return ( y2 == y1 )||( x2 == x1 )||( deltax == deltay )
 }
 /**
  * Средняя

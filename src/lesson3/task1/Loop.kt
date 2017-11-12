@@ -82,13 +82,13 @@ fun fib(n: Int): Int {
     var count = 2
     var antecedent = 1
     var consequent = 1
-    var override = 0
+    var factor = 0
     if( n == 1 || n == 2 ) return 1
     while( count < n ) {
         count++
-        override = consequent
+        factor = consequent
         consequent += antecedent
-        antecedent = override
+        antecedent = factor
         }
     return consequent
 }

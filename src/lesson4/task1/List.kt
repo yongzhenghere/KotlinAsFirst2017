@@ -295,22 +295,44 @@ fun decimalFromString(str: String, base: Int): Int {
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()/*{
-    var num = n
-   val list = mutableListOf<String>()
-    do{
-        num -= 1000
-        list.add('M'.toString())
-    }while( n < 1000 )
-    when {
-        num >= 900 -> list.add("CM")
-        ( num >= 500 )&&( num < 900 ) -> list.add('D'.toString())
-        ( num >= 400 )&&( num < 500 ) -> list.add("CD")
-        ( num >= 100 )&&( num < 400 ) -> list.add('C'.toString())
+fun roman(n: Int): String {
+    var result = ""
+    val list1 = listOf<String>( "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM" )
+    val list2 = listOf<String>( "X", "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX")
+    val list3 = listOf<String>( "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC")
+    val list4 = listOf<String>( "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX")
+    val list5 = listOf<String>( "M","MM","MMM","MMM","MMMM","MMMMM","MMMMMM","MMMMMMM",
+            "MMMMMMMM","MMMMMMMMM" )
+    if ( n < 1000 ) {
+        val digitFirst = n / 100
+        if( digitFirst in 1..9 ) {
+            result += list1[digitFirst - 1]
+        }
+        val digitSecond = n % 100
+        if ( n in 10..19 ) {
+            result += list2[digitSecond - 10]
+        } else {
+            val digitThird = digitSecond / 10
+            if( digitThird in 2..9 ) {
+                result += list3[digitThird - 2]
+            }
+        }
+        val digitForth = n % 10
+        if ( digitForth in 1..9 ) {
+            result += list4[digitForth - 1]
+        }
+    } else {
+        val num = n / 1000
+        val unit = n % 1000
+        var step1 = ""
+        val step2 = roman(unit)
+       if ( num in 1..9 ) {
+           step1 += list5[num-1]
+       }
+        result = step1 + step2
     }
-
-}*/
-
+    return result.trim()
+}
 /**
  * Очень сложная
  *

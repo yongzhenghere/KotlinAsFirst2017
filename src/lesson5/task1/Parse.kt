@@ -1,6 +1,8 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson5.task1
 
+import lesson4.task1.decimal
+
 /**
  * Пример
  *
@@ -115,8 +117,12 @@ fun dateDigitToStr(digital: String): String {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
-
+fun flattenPhoneNumber(phone: String): String {
+    val phoneFilter = phone.filter { it != ' ' && it != '-' }
+    val result = Regex("""(?:\+\d+)?(?:\(\d+\))?\d+""")
+    if ( !result.matches( phoneFilter ) ) return ""
+    return phoneFilter.filter { it !in '('..')' }
+}
 /**
  * Средняя
  *
@@ -127,8 +133,22 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
-
+fun bestLongJump(jumps: String): Int {
+    val parts = jumps.split(" ")
+    var max = -1
+    try {
+        for ( part in parts ) {
+            if ( part == "-" || part == "%" ) continue
+            else {
+                val num = part.toInt()
+                if ( max < num ) max = num
+            }
+        }
+    }catch ( e: NumberFormatException ) {
+        return -1
+    }
+    return max
+}
 /**
  * Сложная
  *
@@ -139,8 +159,15 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
-
+fun bestHighJump(jumps: String): Int {
+    val parts = jumps.split(" ")
+    var max = -1
+    for( i in 1 until parts.size step 2 ) {
+        val num = parts[i - 1].toInt()
+        if( parts[i].contains("+")&&( num > max ) ) max = num
+    }
+    return max
+    }
 /**
  * Сложная
  *
@@ -150,7 +177,23 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    val parts = expression.split(" ")
+    var sum = parts[0].toInt()
+    try {
+        for (i in 0 until parts.size - 2 step 2) {
+            if (parts[i + 1] == "+") {
+                sum += parts[i + 2].toInt()
+            }
+            else {
+                sum -= parts[i + 2].toInt()
+            }
+        }
+    }catch ( e: IllegalArgumentException ) {
+        return -1
+    }
+    return sum
+    }
 
 /**
  * Сложная
@@ -161,7 +204,17 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val parts = str.toLowerCase().split(" ")
+    var sum = 0
+        for ( i in 0 until parts.size-1 ) {
+            if( parts[i] == parts[i+1] ) {
+                return sum
+        }
+            else sum+= parts[i].length + 1
+    }
+    return -1
+}
 
 /**
  * Сложная
@@ -174,8 +227,24 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String = TODO()
-
+fun mostExpensive(description: String): Int {
+    val parts = description.split(";")
+    var max = 0.0
+    var result = ""
+    try {
+        for ( part in parts ) {
+            val something = part.trim().split(" ")
+            if ( something.size != 2 || something[1].toDouble() < 0.0 ) return "".toInt()
+            if ( max < something[1].toDouble() ) {
+                max = something[1].toDouble()
+                result = something[0]
+            }
+        }
+    } catch ( e: NumberFormatException ) {
+        return "".toInt()
+    }
+    return result.toInt()
+}
 /**
  * Сложная
  *

@@ -69,7 +69,7 @@ fun timeForHalfWay(t1: Double, v1: Double,t2: Double, v2: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    val firstRook = ( kingX == rookX1 ) ||( kingY == rookY1 )
+    val firstRook = ( kingX == rookX1 )||( kingY == rookY1 )
     val secondRook = ( kingX == rookX2 )||( kingY == rookY2 )
    return when {
         firstRook && !secondRook -> 1
@@ -91,10 +91,10 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    val r =  Math.abs( bishopY - kingY )
-    val q =  Math.abs( bishopX - kingX )
+    val deltay =  Math.abs( bishopY - kingY )
+    val deltax =  Math.abs( bishopX - kingX )
     val rook = ( kingX == rookX || kingY == rookY )
-    val bishop = ( q == r )
+    val bishop = ( deltay == deltax )
     return when {
         rook && bishop -> 3
        rook && !bishop -> 1
@@ -115,10 +115,11 @@ fun triangleKind(a: Double, b: Double, c: Double):Int {
     val maxSide = maxOf( a , b , c )
     val midSide = a + b + c - minSide - maxSide
     val sum = minSide * minSide + midSide * midSide
+    val pro = maxSide * maxSide
     if( midSide + minSide <= maxSide ) return -1
     return when( midSide + minSide > maxSide ) {
-       sum == maxSide * maxSide -> 1
-        sum < maxSide * maxSide -> 2
+       sum == pro -> 1
+        sum < pro -> 2
         else -> 0
     }
 }
@@ -131,10 +132,10 @@ fun triangleKind(a: Double, b: Double, c: Double):Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = when {
-        ( a <= c ) && ( c < b ) && ( b <= d ) -> b - c // a <= c , b between c and d
-        ( c <= a ) && ( b <= d ) -> b - a // a,b between c and d
-        ( a <= c ) && ( d <= b ) -> d - c // c,d between a and b
-        ( c <= a ) && ( a < d ) && ( d <= b ) -> d - a // b >= d , a between c and d
-        ( a == d ) || ( b == c ) -> 0 // ab coincide cd
+        ( a <= c )&&( c < b )&&( b <= d ) -> b - c // a <= c , b between c and d
+        ( c <= a )&&( b <= d ) -> b - a // a,b between c and d
+        ( a <= c )&&( d <= b ) -> d - c // c,d between a and b
+        ( c <= a )&&( a < d )&&( d <= b ) -> d - a // b >= d , a between c and d
+        ( a == d )||( b == c ) -> 0 // ab coincide cd
         else -> -1
     }
