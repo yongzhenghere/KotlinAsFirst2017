@@ -194,7 +194,6 @@ fun plusMinus(expression: String): Int {
     }
     return sum
     }
-
 /**
  * Сложная
  *
@@ -227,7 +226,8 @@ fun firstDuplicateIndex(str: String): Int {
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): Int {
+fun mostExpensive(description: String): Int = TODO()
+/*{
     val parts = description.split(";")
     var max = 0.0
     var result = ""
@@ -244,7 +244,7 @@ fun mostExpensive(description: String): Int {
         return "".toInt()
     }
     return result.toInt()
-}
+}*/
 /**
  * Сложная
  *
