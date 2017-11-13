@@ -297,11 +297,11 @@ fun decimalFromString(str: String, base: Int): Int {
  */
 fun roman(n: Int): String {
     var result = ""
-    val list1 = listOf<String>( "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM" )
-    val list2 = listOf<String>( "X", "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX")
-    val list3 = listOf<String>( "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC")
-    val list4 = listOf<String>( "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX")
-    val list5 = listOf<String>( "M","MM","MMM","MMM","MMMM","MMMMM","MMMMMM","MMMMMMM",
+    val list1 = listOf<String>("C","CC","CCC","CD","D","DC","DCC","DCCC","CM")
+    val list2 = listOf<String>("X","XI","XII","XIII","XIV","XV","XVI","XVII","XVIII","XIX")
+    val list3 = listOf<String>("XX","XXX","XL","L","LX","LXX","LXXX","XC")
+    val list4 = listOf<String>("I","II","III","IV","V","VI","VII","VIII","IX")
+    val list5 = listOf<String>("M","MM","MMM","MMM","MMMM","MMMMM","MMMMMM","MMMMMMM",
             "MMMMMMMM","MMMMMMMMM" )
     if ( n < 1000 ) {
         val digitFirst = n / 100

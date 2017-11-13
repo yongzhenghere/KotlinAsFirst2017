@@ -59,7 +59,6 @@ fun main(args: Array<String>) {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
-
 /**
  * Средняя
  *
@@ -70,15 +69,15 @@ fun main(args: Array<String>) {
  */
 fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
-    val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля",
-            "августа", "сентября", "октября", "ноября", "декабря")
+    val months = listOf("января","февраля","марта","апреля","мая","июня",
+            "июля","августа","сентября","октября","ноября","декабря")
     if (parts.size != 3) return ""
     try {
         val day = parts[0].toInt()
         val month = parts[1]
         if (day !in 1..31 || month !in months) return ""
         val year = parts[2].toInt()
-        return String.format( "%02d.%02d.%d", day , months.indexOf(month) + 1 , year )
+        return String.format( "%02d.%02d.%d",day,months.indexOf(month)+ 1,year )
     } catch ( e: NumberFormatException ) {
         return ""
     }
@@ -92,8 +91,8 @@ fun dateStrToDigit(str: String): String {
  */
 fun dateDigitToStr(digital: String): String {
     val parts = digital.split(".")
-    val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля",
-            "августа", "сентября", "октября", "ноября", "декабря")
+    val months = listOf("января","февраля","марта","апреля","мая","июня",
+            "июля","августа","сентября","октября","ноября","декабря")
     if( parts.size != 3 ) return ""
     try {
         val day = parts[0].toInt()
@@ -181,8 +180,8 @@ fun plusMinus(expression: String): Int {
     val parts = expression.split(" ")
     var sum = parts[0].toInt()
     try {
-        for (i in 0 until parts.size - 2 step 2) {
-            if (parts[i + 1] == "+") {
+        for ( i in 0 until parts.size - 2 step 2 ) {
+            if ( parts[i + 1] == "+" ) {
                 sum += parts[i + 2].toInt()
             }
             else {
@@ -206,7 +205,7 @@ fun plusMinus(expression: String): Int {
 fun firstDuplicateIndex(str: String): Int {
     val parts = str.toLowerCase().split(" ")
     var sum = 0
-        for ( i in 0 until parts.size-1 ) {
+        for ( i in 0 until parts.size - 1 ) {
             if( parts[i] == parts[i+1] ) {
                 return sum
         }
@@ -214,7 +213,6 @@ fun firstDuplicateIndex(str: String): Int {
     }
     return -1
 }
-
 /**
  * Сложная
  *
@@ -226,25 +224,24 @@ fun firstDuplicateIndex(str: String): Int {
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): Int = TODO()
-/*{
+fun mostExpensive(description: String): String {
     val parts = description.split(";")
     var max = 0.0
     var result = ""
     try {
         for ( part in parts ) {
             val something = part.trim().split(" ")
-            if ( something.size != 2 || something[1].toDouble() < 0.0 ) return "".toInt()
+            if ( something.size != 2 || something[1].toDouble() < 0.0 ) return ""
             if ( max < something[1].toDouble() ) {
                 max = something[1].toDouble()
                 result = something[0]
             }
         }
     } catch ( e: NumberFormatException ) {
-        return "".toInt()
+        return ""
     }
-    return result.toInt()
-}*/
+    return result
+}
 /**
  * Сложная
  *
