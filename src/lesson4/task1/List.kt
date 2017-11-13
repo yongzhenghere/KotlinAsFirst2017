@@ -309,17 +309,17 @@ fun roman(n: Int): String {
             result += list1[digitFirst - 1]
         }
         val digitSecond = n % 100
-        if ( n in 10..19 ) {
+        if ( digitSecond in 10..19 ) {
             result += list2[digitSecond - 10]
         } else {
             val digitThird = digitSecond / 10
-            if( digitThird in 2..9 ) {
+            if (digitThird in 2..9) {
                 result += list3[digitThird - 2]
             }
-        }
-        val digitForth = n % 10
-        if ( digitForth in 1..9 ) {
-            result += list4[digitForth - 1]
+            val digitForth = n % 10
+            if (digitForth in 1..9) {
+                result += list4[digitForth - 1]
+            }
         }
     } else {
         val num = n / 1000

@@ -168,14 +168,6 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
     }
     return false
 }
-/*{
-    var k = 0
-    while( k * k in 0..n ){
-        if( k * k in m..n ) return true
-        k++
-    }
-    return false
-}*/
 /**
  * Средняя
  *
