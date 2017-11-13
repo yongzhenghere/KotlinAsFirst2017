@@ -159,13 +159,23 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
+    var k = 0.0
+    val M = Math.sqrt( m.toDouble() )
+    val N = Math.sqrt( n.toDouble() )
+    while ( k in 0.0..N ) {
+        if ( k in M..N ) return true
+        k++
+    }
+    return false
+}
+/*{
     var k = 0
     while( k * k in 0..n ){
         if( k * k in m..n ) return true
         k++
     }
     return false
-}
+}*/
 /**
  * Средняя
  *
@@ -178,11 +188,13 @@ fun sin(x: Double, eps: Double): Double {
     var sum = base
     var mult = base
     var count = 0
+    var factor = 1
     while( Math.abs( mult ) >= eps ) {
         count++
         val num = 2 * count + 1.0
         mult = Math.pow( base , num ) / factorial( num.toInt() )
-        sum += mult * Math.pow( -1.0 , count.toDouble() )
+        factor *= -1
+        sum += mult * factor
     }
     return sum
 }
@@ -198,11 +210,13 @@ fun cos(x: Double, eps: Double): Double {
     var sum = 1.0
     var mult = base
     var count = 0
+    var factor = 1
     while( Math.abs( mult ) >= eps ) {
         count++
         val num = 2.0 * count
+        factor *= -1
         mult = Math.pow( base , num )  / factorial( num.toInt() )
-        sum += mult * Math.pow( -1.0 , count.toDouble() )
+        sum += mult * factor
     }
     return sum
 }

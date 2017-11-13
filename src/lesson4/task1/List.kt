@@ -164,8 +164,10 @@ fun times(a: List<Double>, b: List<Double>): Double {
  */
 fun polynom(p: List<Double>, x: Double): Double {
     var sum1 = 0.0
+    var factor = 1.0
     for( i in 0 until p.size ) {
-        sum1 += p[i] * Math.pow( x , i.toDouble() )
+        sum1 += p[i] * factor
+        factor *= x
     }
     return sum1
 }
@@ -199,7 +201,7 @@ fun factorize(n: Int): List<Int> {
     var number = n
     while( number != 1 ) {
         while( number % count == 0 ) {
-            list.add(count)
+            list += count
             number /= count
         }
         count ++
@@ -226,7 +228,7 @@ fun convert(n: Int, base: Int): List<Int> {
     var num = n
     if( num == 0 )  return listOf(0)
     while( num > 0 ) {
-        list.add( num % base )
+        list += num % base
         num /= base
     }
     return list.reversed()
@@ -301,8 +303,6 @@ fun roman(n: Int): String {
     val list2 = listOf<String>("X","XI","XII","XIII","XIV","XV","XVI","XVII","XVIII","XIX")
     val list3 = listOf<String>("XX","XXX","XL","L","LX","LXX","LXXX","XC")
     val list4 = listOf<String>("I","II","III","IV","V","VI","VII","VIII","IX")
-    val list5 = listOf<String>("M","MM","MMM","MMM","MMMM","MMMMM","MMMMMM","MMMMMMM",
-            "MMMMMMMM","MMMMMMMMM" )
     if ( n < 1000 ) {
         val digitFirst = n / 100
         if( digitFirst in 1..9 ) {
@@ -324,12 +324,13 @@ fun roman(n: Int): String {
     } else {
         val num = n / 1000
         val unit = n % 1000
-        var step1 = ""
+        var count = 0
         val step2 = roman(unit)
-       if ( num in 1..9 ) {
-           step1 += list5[num-1]
-       }
-        result = step1 + step2
+        for ( i in 1..num ) {
+            count ++
+            result += "M"
+        }
+        result += step2
     }
     return result.trim()
 }

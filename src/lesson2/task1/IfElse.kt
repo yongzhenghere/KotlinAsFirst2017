@@ -114,12 +114,13 @@ fun triangleKind(a: Double, b: Double, c: Double):Int {
     val minSide = minOf( a , b , c )
     val maxSide = maxOf( a , b , c )
     val midSide = a + b + c - minSide - maxSide
-    val sum = minSide * minSide + midSide * midSide
-    val pro = maxSide * maxSide
-    if( midSide + minSide <= maxSide ) return -1
-    return when( midSide + minSide > maxSide ) {
-       sum == pro -> 1
-        sum < pro -> 2
+    val sum1 = minSide * minSide + midSide * midSide
+    val pro1 = maxSide * maxSide
+    val sum2 = midSide + minSide
+    if( sum2 <= maxSide ) return -1
+    return when( sum2 > maxSide ) {
+       sum1 == pro1 -> 1
+        sum1 < pro1 -> 2
         else -> 0
     }
 }
