@@ -109,7 +109,7 @@ data class Segment(val begin: Point, val end: Point) {
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
 fun Segment.length() = begin.distance(end)
-fun Segment.center() = Point( ( begin.x + begin.y ) / 2 , ( end.x + end.y ) / 2 )
+fun Segment.center() = Point( ( begin.x + end.x ) / 2 , ( begin.y + end.y ) / 2 )
 fun diameter(vararg points: Point): Segment {
     if( points.size < 2 ) throw IllegalAccessException()
     var longest = Segment( points[0] , points[0] )
@@ -154,8 +154,8 @@ class Line private constructor(val b: Double, val angle: Double) {
     fun crossPoint(other: Line): Point {
         val det = Math.tan(angle) - Math.tan(other.angle)
         if( det == 0.0 ) throw IllegalMonitorStateException("IllegalAccessException")
-        return Point( ( other.b - b ) / det ,( Math.tan(angle) * other.b -
-                b * Math.tan(other.angle) / det ) )
+        return Point( ( other.b - b ) / ( det * Math.cos(angle) ) ,( Math.tan(angle) * other.b -
+                b * Math.tan(other.angle) / ( det * Math.cos(angle) ) ) )
     }
     override fun equals(other: Any?) = other is Line && angle == other.angle && b == other.b
 
@@ -190,11 +190,10 @@ fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment( a , b ))
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
 fun bisectorByPoints(a: Point, b: Point): Line {
-    val angle = Math.abs( ( a.x - b.x ) / ( a.y - b.y ) )
+    val angle = Math.atan( ( b.y - a.y ) / ( b.x - a.x ) ) + Math.PI / 2
     val cenPoint = Point( ( a.x + b.x ) / 2 , ( a.y + b.y ) / 2 )
-    return Line( cenPoint , Math.atan( angle ) )
+    return Line( cenPoint , angle )
 }
-
 /**
  * Средняя
  *
