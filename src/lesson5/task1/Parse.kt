@@ -134,16 +134,18 @@ fun flattenPhoneNumber(phone: String): String {
  */
 fun bestLongJump(jumps: String): Int {
    var max = -1
-    val result = Regex("""[\d -%]+""")
-    if( !jumps.matches(result)) return -1
-    val jump1 = jumps.split(" ")
-    for( i in 0 until jump1.size ) {
-        if( jump1[i].contains(Regex("""[\d+]+"""))) {
-            val len = jump1[i].toInt()
-            if( max < len ) max = len
+  val parts = jumps.split(" ").filter { it != "" }
+   try{
+           for( part in parts ) {
+        if( part != "-" && part != "%" ) {
+            val num = part.toInt()
+            if( max < num ) max = num
         }
     }
-    return max
+}catch ( e: NumberFormatException ) {
+   return -1
+   }
+return max
 }
 /**
  * Сложная
@@ -174,22 +176,21 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    val parts = expression.split(" ")
-    var sum = parts[0].toInt()
-    try {
-        for ( i in 0 until parts.size - 2 step 2 ) {
-            if ( parts[i + 1] == "+" ) {
+    if (!Regex("""(?:(\d+\s[-+]\s)+)?\d+""").matches(expression)) {
+        throw IllegalMonitorStateException()
+    } else {
+        val parts = expression.split(" ")
+        var sum = parts[0].toInt()
+        for (i in 0 until parts.size - 2 step 2) {
+            if (parts[i + 1] == "+") {
                 sum += parts[i + 2].toInt()
-            }
-            else {
+            } else {
                 sum -= parts[i + 2].toInt()
             }
         }
-    }catch ( e: IllegalArgumentException ) {
-        return -1
+        return sum
     }
-    return sum
-    }
+}
 /**
  * Сложная
  *
@@ -222,10 +223,10 @@ fun firstDuplicateIndex(str: String): Int {
  * Все цены должны быть положительными
  */
 fun mostExpensive(description: String): String {
-    val parts = description.split(";")
     var max = 0.0
     var result = ""
     try {
+        val parts = description.split(";")
         for ( part in parts ) {
             val something = part.trim().split(" ")
             if ( something.size != 2 || something[1].toDouble() < 0.0 ) return ""
@@ -234,8 +235,8 @@ fun mostExpensive(description: String): String {
                 result = something[0]
             }
         }
-    } catch ( e: NumberFormatException ) {
-        return "Any good with price 0.0"
+    }catch ( e: NumberFormatException ) {
+        return ""
     }
     return result
 }
