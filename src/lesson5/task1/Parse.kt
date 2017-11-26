@@ -142,10 +142,10 @@ fun bestLongJump(jumps: String): Int {
                if (max < num) max = num
         }
        }
-}catch ( e: NumberFormatException ) {
-   return -1
+   }catch (e: NumberFormatException) {
+       return -1
    }
-return max
+    return max
 }
 /**
  * Сложная
@@ -179,11 +179,10 @@ fun plusMinus(expression: String): Int {
         val parts = expression.split(" ")
         if (parts.size % 2 == 0) throw IllegalArgumentException()
         var sum = parts[0].toInt()
-        var factor = 1
-        for (i in 1 ..parts.size - 2 step 2) {
-            when {
-                parts[i] == "+" -> factor = 1
-                parts[i] == "-" -> factor = -1
+        for (i in 1 until parts.size - 1 step 2) {
+            val factor =  when (parts[i]) {
+                "+" ->  1
+                else -> -1
             }
             sum += factor * parts[i + 1].toInt()
         }
@@ -201,11 +200,11 @@ fun plusMinus(expression: String): Int {
 fun firstDuplicateIndex(str: String): Int {
     val parts = str.toLowerCase().split(" ")
     var sum = 0
-        for ( i in 0 until parts.size - 1 ) {
-            if( parts[i] == parts[i+1] ) {
-                return sum
+    for ( i in 0 until parts.size - 1 ) {
+        if( parts[i] == parts[i+1] ) {
+            return sum
         }
-            else sum+= parts[i].length + 1
+        else sum+= parts[i].length + 1
     }
     return -1
 }
@@ -221,19 +220,22 @@ fun firstDuplicateIndex(str: String): Int {
  * Все цены должны быть положительными
  */
 fun mostExpensive(description: String): String {
-    if (description.isEmpty()) return ""
     var max = 0.0
     var result = ""
-    val parts = description.split("; ")
-    for (i in parts) {
-        val sth = i.split(" ")
-        for (j in 1 until sth.size step 2) {
-            if (sth[j].toDouble()> max) {
-                max = sth[j].toDouble()
-                result = sth[j-1]
-                }
+    try {
+        val parts = description.split(";")
+        for (part in parts) {
+            val something = part.trim().split(" ")
+            val num = something[1].toDouble()
+            if (something.size != 2 || num < 0.0) return ""
+            if (max < num) {
+                max = num
+                result = something[0]
             }
         }
+    } catch (e: NumberFormatException) {
+        return ""
+    }
     return result
 }
 /**
