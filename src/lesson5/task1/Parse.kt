@@ -136,10 +136,10 @@ fun bestLongJump(jumps: String): Int {
    var max = -1
   val parts = jumps.split(" ").filter { it != "" }
    try{
-           for( part in parts ) {
-        if( part != "-" && part != "%" ) {
-            val num = part.toInt()
-            if( max < num ) max = num
+       for( part in parts ) {
+           if( part != "-" && part != "%" ) {
+               val num = part.toInt()
+                if( max < num ) max = num
         }
     }
 }catch ( e: NumberFormatException ) {
@@ -176,20 +176,16 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    if (!Regex("""(?:(\d+\s[-+]\s)+)?\d+""").matches(expression)) {
-        throw IllegalMonitorStateException()
-    } else {
-        val parts = expression.split(" ")
-        var sum = parts[0].toInt()
-        for (i in 0 until parts.size - 2 step 2) {
-            if (parts[i + 1] == "+") {
-                sum += parts[i + 2].toInt()
-            } else {
-                sum -= parts[i + 2].toInt()
-            }
+    if ( expression.length == 0 )  throw IllegalMonitorStateException()
+    val parts = expression.split(" ")
+    var sum = parts[0].toInt()
+    for( i in 2 until parts.size step 2 ) {
+        when {
+            parts[i - 1] == "+" -> sum += parts[i].toInt()
+            parts[i - 1] == "-" -> sum -= parts[i].toInt()
         }
-        return sum
     }
+        return sum
 }
 /**
  * Сложная
@@ -223,22 +219,22 @@ fun firstDuplicateIndex(str: String): Int {
  * Все цены должны быть положительными
  */
 fun mostExpensive(description: String): String {
-    var max = 0.0
-    var result = ""
-    try {
-        val parts = description.split(";")
-        for ( part in parts ) {
-            val something = part.trim().split(" ")
-            if ( something.size != 2 || something[1].toDouble() < 0.0 ) return ""
-            if ( max < something[1].toDouble() ) {
-                max = something[1].toDouble()
-                result = something[0]
+        var max = 0.0
+        var result = ""
+        try {
+            val parts = description.split(";")
+            for (part in parts) {
+                val something = part.trim().split(" ")
+                if (something.size != 2 || something[1].toDouble() < 0.0) return ""
+                if (max < something[1].toDouble()) {
+                    max = something[1].toDouble()
+                    result = something[0]
+                }
             }
+        } catch (e: NumberFormatException) {
+            return ""
         }
-    }catch ( e: NumberFormatException ) {
-        return ""
-    }
-    return result
+        return result
 }
 /**
  * Сложная

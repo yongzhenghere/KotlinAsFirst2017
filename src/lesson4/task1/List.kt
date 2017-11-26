@@ -197,7 +197,7 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  */
 fun factorize(n: Int): List<Int> {
     val list = mutableListOf<Int>()
-   var count = 2
+    var count = 2
     var number = n
     while( number != 1 ) {
         while( number % count == 0 ) {
@@ -298,42 +298,22 @@ fun decimalFromString(str: String, base: Int): Int {
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String {
+    val listRoman = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD",
+            "D", "CM", "M")
+    val listArabic = listOf(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
+    var num = n
     var result = ""
-    val list1 = listOf<String>("C","CC","CCC","CD","D","DC","DCC","DCCC","CM")
-    val list2 = listOf<String>("X","XI","XII","XIII","XIV","XV","XVI",
-            "XVII","XVIII","XIX")
-    val list3 = listOf<String>("XX","XXX","XL","L","LX","LXX","LXXX","XC")
-    val list4 = listOf<String>("I","II","III","IV","V","VI","VII","VIII","IX")
-    if ( n < 1000 ) {
-        val digitFirst = n / 100
-        if( digitFirst in 1..9 ) {
-            result += list1[digitFirst - 1]
+    if (num <= 0) return ""
+    while (num > 0) {
+    for (i in listArabic.size-1 downTo 0) {
+        if (num - listArabic[i] >= 0) {
+            result += listRoman[i]
+            num -= listArabic[i]
+            break
         }
-        val digitSecond = n % 100
-        if ( digitSecond in 10..19 ) {
-            result += list2[digitSecond - 10]
-        } else {
-            val digitThird = digitSecond / 10
-            if (digitThird in 2..9) {
-                result += list3[digitThird - 2]
-            }
-            val digitForth = n % 10
-            if (digitForth in 1..9) {
-                result += list4[digitForth - 1]
-            }
-        }
-    } else {
-        val num = n / 1000
-        val unit = n % 1000
-        var count = 0
-        val step2 = roman(unit)
-        for ( i in 1..num ) {
-            count ++
-            result += "M"
-        }
-        result += step2
     }
-    return result.trim()
+    }
+    return result
 }
 /**
  * Очень сложная
