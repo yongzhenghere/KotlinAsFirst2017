@@ -1,6 +1,8 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson6.task2
 
+import lesson3.task1.digitNumber
+
 /**
  * Клетка шахматной доски. Шахматная доска квадратная и имеет 8 х 8 клеток.
  * Поэтому, обе координаты клетки (горизонталь row, вертикаль column) могут находиться в пределах от 1 до 8.
@@ -21,9 +23,12 @@ data class Square(val column: Int, val row: Int) {
      * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
      * Для клетки не в пределах доски вернуть пустую строку
      */
-    fun notation(): String = TODO()
+    fun notation(): String {
+        if (inside() == false) return ""
+        val columnList = listOf("a", "b", "c", "d", "e", "f", "g", "h")
+        return columnList[column - 1] + row.toString()
+    }
 }
-
 /**
  * Простая
  *
@@ -31,7 +36,11 @@ data class Square(val column: Int, val row: Int) {
  * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
  * Если нотация некорректна, бросить IllegalArgumentException
  */
-fun square(notation: String): Square = TODO()
+fun square(notation: String): Square {
+    if (notation.length != 2 || notation[0] !in 'a'..'h' || notation[1] !in '1'..'8')
+        throw IllegalArgumentException()
+    return  Square(notation[0] - 'a' + 1, notation[1]- '0')
+}
 
 /**
  * Простая
@@ -56,8 +65,16 @@ fun square(notation: String): Square = TODO()
  * Пример: rookMoveNumber(Square(3, 1), Square(6, 3)) = 2
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
-fun rookMoveNumber(start: Square, end: Square): Int = TODO()
-
+fun rookMoveNumber(start: Square, end: Square): Int {
+    if (!start.inside()|| !end.inside()) throw IllegalArgumentException()
+    val colDel = end.column == start.column
+    val rowDel = end.row == start.row
+    return when {
+        colDel && rowDel -> 0
+        colDel || rowDel -> 1
+        else -> 2
+    }
+}
 /**
  * Средняя
  *
@@ -72,8 +89,14 @@ fun rookMoveNumber(start: Square, end: Square): Int = TODO()
  *          rookTrajectory(Square(3, 5), Square(8, 5)) = listOf(Square(3, 5), Square(8, 5))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun rookTrajectory(start: Square, end: Square): List<Square> = TODO()
-
+fun rookTrajectory(start: Square, end: Square): List<Square> {
+    val digit = rookMoveNumber(start, end)
+    return when(digit) {
+        0 -> listOf(start)
+        1 -> listOf(start, end)
+        else -> listOf(start, Square(start.column, end.row), end)
+    }
+}
 /**
  * Простая
  *
@@ -97,8 +120,18 @@ fun rookTrajectory(start: Square, end: Square): List<Square> = TODO()
  * Примеры: bishopMoveNumber(Square(3, 1), Square(6, 3)) = -1; bishopMoveNumber(Square(3, 1), Square(3, 7)) = 2.
  * Слон может пройти через клетку (6, 4) к клетке (3, 7).
  */
-fun bishopMoveNumber(start: Square, end: Square): Int = TODO()
-
+fun bishopMoveNumber(start: Square, end: Square): Int {
+    val colDet = end.column - start.column
+    val rowDet = end.row - start.row
+    val det = Math.abs(colDet - rowDet)
+    if (!start.inside() || !end.inside()) throw IllegalArgumentException()
+    return when {
+        start == end -> 0
+        det == 0 -> 1
+        colDet == 0 || rowDet == 0 -> 2
+        else -> -1
+    }
+}
 /**
  * Сложная
  *
