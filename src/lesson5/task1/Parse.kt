@@ -183,8 +183,8 @@ fun bestHighJump(jumps: String): Int {
 fun plusMinus(expression: String): Int {
     val parts = expression.split(" ")
     if (parts.size % 2 == 0) throw IllegalArgumentException()
-    var sum = parts[0].toInt()
     try {
+        var sum = parts[0].toInt()
         for (i in 1 until parts.size - 1 step 2) {
             val factor = when (parts[i]) {
                 "+" -> 1
@@ -192,10 +192,10 @@ fun plusMinus(expression: String): Int {
             }
             sum += factor * parts[i + 1].toInt()
         }
+        return sum
     } catch (e: NumberFormatException) {
         throw IllegalArgumentException()
     }
-    return sum
 }
 
 /**
@@ -239,7 +239,7 @@ fun mostExpensive(description: String): String {
             if (something.size != 2) return ""
             val num = something[1].toDouble()
             if (num < 0.0) return ""
-            if (max < num) {
+            if (max <= num) {
                 max = num
                 result = something[0]
             }
