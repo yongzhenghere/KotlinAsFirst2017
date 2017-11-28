@@ -121,15 +121,15 @@ fun rookTrajectory(start: Square, end: Square): List<Square> {
  * Слон может пройти через клетку (6, 4) к клетке (3, 7).
  */
 fun bishopMoveNumber(start: Square, end: Square): Int {
-    val colDet = end.column - start.column
-    val rowDet = end.row - start.row
+    val colDet = start.column - end.column
+    val rowDet = start.row - end.row
     val det = Math.abs(colDet - rowDet)
     if (!start.inside() || !end.inside()) throw IllegalArgumentException()
     return when {
         start == end -> 0
         det == 0 -> 1
-        colDet == 0 || rowDet == 0 -> 2
-        else -> -1
+        (start.column + start.row) % 2 != (end.column + end.row) % 2 -> -1
+        else -> 2
     }
 }
 /**

@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
 
 import lesson4.task1.decimal
@@ -50,15 +51,14 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
+
 /**
  * Средняя
  *
@@ -69,19 +69,20 @@ fun main(args: Array<String>) {
  */
 fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
-    val months = listOf("января","февраля","марта","апреля","мая","июня",
-            "июля","августа","сентября","октября","ноября","декабря")
+    val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня",
+            "июля", "августа", "сентября", "октября", "ноября", "декабря")
     if (parts.size != 3) return ""
     try {
         val day = parts[0].toInt()
         val month = parts[1]
         if (day !in 1..31 || month !in months) return ""
         val year = parts[2].toInt()
-        return String.format("%02d.%02d.%d", day, months.indexOf(month)+ 1, year)
-    } catch ( e: NumberFormatException ) {
+        return String.format("%02d.%02d.%d", day, months.indexOf(month) + 1, year)
+    } catch (e: NumberFormatException) {
         return ""
     }
 }
+
 /**
  * Средняя
  *
@@ -91,8 +92,8 @@ fun dateStrToDigit(str: String): String {
  */
 fun dateDigitToStr(digital: String): String {
     val parts = digital.split(".")
-    val months = listOf("января","февраля","марта","апреля","мая","июня",
-            "июля","августа","сентября","октября","ноября","декабря")
+    val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня",
+            "июля", "августа", "сентября", "октября", "ноября", "декабря")
     if (parts.size != 3) return ""
     try {
         val day = parts[0].toInt()
@@ -100,10 +101,11 @@ fun dateDigitToStr(digital: String): String {
         if (day !in 1..31 || month !in 1..12) return ""
         val year = parts[2].toInt()
         return String.format("%d %s %d", day, months[month - 1], year)
-    }catch ( e: NumberFormatException ) {
+    } catch (e: NumberFormatException) {
         return ""
     }
 }
+
 /**
  * Средняя
  *
@@ -122,6 +124,7 @@ fun flattenPhoneNumber(phone: String): String {
     if (!result.matches(phoneFiltered)) return ""
     return phoneFiltered.filter { it !in '('..')' }
 }
+
 /**
  * Средняя
  *
@@ -133,20 +136,21 @@ fun flattenPhoneNumber(phone: String): String {
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-   var max = -1
-   val parts = jumps.split(" ").filter { it != "" }
-   try {
-       for (part in parts) {
-           if (part != "-" && part != "%") {
-               val num = part.toInt()
-               if (max < num) max = num
+    var max = -1
+    val parts = jumps.split(" ").filter { it != "" }
+    try {
+        for (part in parts) {
+            if (part != "-" && part != "%") {
+                val num = part.toInt()
+                if (max < num) max = num
+            }
         }
-       }
-   }catch (e: NumberFormatException) {
-       return -1
-   }
+    } catch (e: NumberFormatException) {
+        return -1
+    }
     return max
 }
+
 /**
  * Сложная
  *
@@ -162,10 +166,11 @@ fun bestHighJump(jumps: String): Int {
     var max = -1
     for (i in 1 until parts.size step 2) {
         val num = parts[i - 1].toInt()
-        if (parts[i].contains("+")&&(num > max)) max = num
+        if (parts[i].contains("+") && (num > max)) max = num
     }
     return max
-    }
+}
+
 /**
  * Сложная
  *
@@ -176,18 +181,23 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-        val parts = expression.split(" ")
-        if (parts.size % 2 == 0) throw IllegalArgumentException()
-        var sum = parts[0].toInt()
+    val parts = expression.split(" ")
+    if (parts.size % 2 == 0) throw IllegalArgumentException()
+    var sum = parts[0].toInt()
+    try {
         for (i in 1 until parts.size - 1 step 2) {
-            val factor =  when (parts[i]) {
-                "+" ->  1
+            val factor = when (parts[i]) {
+                "+" -> 1
                 else -> -1
             }
             sum += factor * parts[i + 1].toInt()
         }
-        return sum
+    } catch (e: NumberFormatException) {
+        throw IllegalArgumentException()
+    }
+    return sum
 }
+
 /**
  * Сложная
  *
@@ -200,14 +210,14 @@ fun plusMinus(expression: String): Int {
 fun firstDuplicateIndex(str: String): Int {
     val parts = str.toLowerCase().split(" ")
     var sum = 0
-    for ( i in 0 until parts.size - 1 ) {
-        if( parts[i] == parts[i+1] ) {
+    for (i in 0 until parts.size - 1) {
+        if (parts[i] == parts[i + 1]) {
             return sum
-        }
-        else sum+= parts[i].length + 1
+        } else sum += parts[i].length + 1
     }
     return -1
 }
+
 /**
  * Сложная
  *
@@ -226,8 +236,9 @@ fun mostExpensive(description: String): String {
         val parts = description.split(";")
         for (part in parts) {
             val something = part.trim().split(" ")
+            if (something.size != 2) return ""
             val num = something[1].toDouble()
-            if (something.size != 2 || num < 0.0) return ""
+            if (num < 0.0) return ""
             if (max < num) {
                 max = num
                 result = something[0]
@@ -238,6 +249,7 @@ fun mostExpensive(description: String): String {
     }
     return result
 }
+
 /**
  * Сложная
  *
