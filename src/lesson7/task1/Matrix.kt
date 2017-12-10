@@ -39,8 +39,8 @@ interface Matrix<E> {
  * Бросить исключение IllegalArgumentException, если height или width <= 0.
  */
 fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
-    if (height <=0 || width <= 0) throw IllegalArgumentException()
-   val matrix = MatrixImpl(height,width,e)
+    if (height <= 0 || width <= 0) throw IllegalArgumentException()
+    val matrix = MatrixImpl(height, width, e)
     for (i in 0 until height)
         for (j in 0 until width) {
             matrix[i, j] = e

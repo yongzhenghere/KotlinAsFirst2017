@@ -59,8 +59,35 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
  * 10 11 12  5
  *  9  8  7  6
  */
-fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
-
+fun generateSpiral(height: Int, width: Int): Matrix<Int> {
+    val result = createMatrix(height, width, 0)
+    var num = 0
+    var i = 0
+    var j = -1
+    while (num < height * width) {
+        while (j + 1 < width && result[i, j + 1] == 0) {
+            j += 1
+            num += 1
+            result[i, j] = num
+        }
+        while (i + 1 < height && result[i + 1, j] == 0) {
+            i += 1
+            num += 1
+            result[i, j] = num
+        }
+        while (j >= 1 && result[i, j - 1] == 0) {
+            j -= 1
+            num += 1
+            result[i, j] = num
+        }
+        while (i >= 1 && result[i - 1, j] == 0) {
+            i -= 1
+            num += 1
+            result[i, j] = num
+        }
+    }
+    return result
+}
 /**
  * Сложная
  *
@@ -75,7 +102,26 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
  *  1  2  2  2  2  1
  *  1  1  1  1  1  1
  */
-fun generateRectangles(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateRectangles(height: Int, width: Int): Matrix<Int> {
+    val result = createMatrix(height, width, 1)
+    var n = 2
+    while (n <= height / 2) {
+        for (column in n - 1..width - n) {
+            result[n - 1, column] = n
+            result[height - n, column] = n
+        }
+        n++
+    }
+    n = 2
+    while (n <= width / 2) {
+        for (low in n - 1..height - n) {
+            result[low, n - 1] = n
+            result[low, width - n] = n
+        }
+        n++
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -90,8 +136,25 @@ fun generateRectangles(height: Int, width: Int): Matrix<Int> = TODO()
  * 10 13 16 18
  * 14 17 19 20
  */
-fun generateSnake(height: Int, width: Int): Matrix<Int> = TODO()
-
+fun generateSnake(height: Int, width: Int): Matrix<Int> {
+    val result = createMatrix(height, width, 0)
+    var staRow = -1
+    var staCol = 1
+    var num = 0
+    while (num < height * width) {
+        var i = staRow
+        var j = staCol
+        while (i + 1 < height && j >= 1) {
+            i += 1
+            j -= 1
+            num += 1
+            result[i, j] = num
+        }
+        if (staCol + 1 <= width) staCol += 1
+        else staRow += 1
+    }
+    return result
+}
 /**
  * Средняя
  *
@@ -103,7 +166,14 @@ fun generateSnake(height: Int, width: Int): Matrix<Int> = TODO()
  * 4 5 6      8 5 2
  * 7 8 9      9 6 3
  */
-fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
+fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
+    if (matrix.height != matrix.width) throw IllegalArgumentException()
+    val result = createMatrix(matrix.height, matrix.width, matrix[0, 0])
+    for (column in 0 until matrix.width)
+        for (row in 0 until matrix.height)
+            result[row, column] = matrix[matrix.width - 1 - column, row]
+    return result
+}
 
 /**
  * Сложная
