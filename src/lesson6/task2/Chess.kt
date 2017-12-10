@@ -25,9 +25,8 @@ data class Square(val column: Int, val row: Int) {
      * Для клетки не в пределах доски вернуть пустую строку
      */
     fun notation(): String {
-        if (inside() == false) return ""
-        val columnList = listOf("a", "b", "c", "d", "e", "f", "g", "h")
-        return columnList[column - 1] + row.toString()
+        if (!inside()) return ""
+        return ('a' + column - 1) + row.toString()
     }
 }
 
@@ -128,12 +127,12 @@ fun bishopMoveNumber(start: Square, end: Square): Int {
     if (!start.inside() || !end.inside()) throw IllegalArgumentException()
     val colDet = Math.abs(start.column - end.column)
     val rowDet = Math.abs(start.row - end.row)
-    val num1 = colDet % 2
-    val num2 = rowDet % 2
+    val colParity = colDet % 2
+    val rowParity = rowDet % 2
     return when {
         start == end -> 0
         colDet == rowDet -> 1
-        (num1 == 1 && num2 == 1) || (num1 == 0 && num2 == 0) -> 2
+        (colParity == 1 && rowParity == 1) || (colParity == 0 && rowParity == 0) -> 2
         else -> -1
     }
 }
@@ -242,7 +241,6 @@ fun kingTrajectory(start: Square, end: Square): List<Square> {
  * Шахматный конь одним ходом вначале передвигается ровно на 2 клетки по горизонтали или вертикали,
  * а затем ещё на 1 клетку под прямым углом, образуя букву "Г".
  * Ниже точками выделены возможные ходы коня, а крестиками -- невозможные:
- *
  * .xxx.xxx
  * xxKxxxxx
  * .xxx.xxx
@@ -258,8 +256,25 @@ fun kingTrajectory(start: Square, end: Square): List<Square> {
  * Пример: knightMoveNumber(Square(3, 1), Square(6, 3)) = 3.
  * Конь может последовательно пройти через клетки (5, 2) и (4, 4) к клетке (6, 3).
  */
-fun knightMoveNumber(start: Square, end: Square): Int = TODO()
-
+fun sqr(x: Int) = x * x
+fun knightMoveNumber(start: Square, end: Square): Int {
+    if (!start.inside() || !end.inside()) throw IllegalArgumentException()
+        val corner = listOf(Square(1, 1), Square(1, 8),
+                Square(8, 1), Square(8, 8))
+        val distance = sqr(end.row - start.row) + sqr(end.column - start.column)
+        return when {
+            distance == 2 && (start in corner || end in corner) -> 4
+            else -> when (distance) {
+                0 -> 0
+                5 -> 1
+                98 -> 6
+                in listOf(2, 4, 10, 16, 18, 20) -> 2
+                in listOf(1, 9, 13, 17, 25, 29, 37, 41, 45) -> 3
+                in listOf(49, 53, 61, 65, 85) -> 5
+                else -> 4
+            }
+        }
+}
 /**
  * Очень сложная
  *
