@@ -261,12 +261,21 @@ fun mostExpensive(description: String): String {
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
-//{
-//    val map = mapOf(1 to "I", 4 to "IV", 5 to "V", 9 to "IX", 10 to "X", 40 to "XL", 50 to "L",
-//            90 to "XC", 100 to "C", 400 to "CD", 500 to "D", 900 to "CM", 1000 to "M")
-//
-//}
+fun fromRoman(roman: String): Int {
+    if (!roman.contains(Regex("""(?:[D|C|L|X|V|I]?)"""))) return -1
+    val map = mapOf(1 to "I", 4 to "IV", 5 to "V", 9 to "IX", 10 to "X", 40 to "XL", 50 to "L",
+            90 to "XC", 100 to "C", 400 to "CD", 500 to "D", 900 to "CM", 1000 to "M")
+    var result = 0
+    var i = 0
+    while (i < roman.length) {
+        val entry = map.entries.findLast { roman.startsWith(it.value, i) }
+        if (entry != null) {
+            result += entry.key
+            i += entry.value.length
+        } else return -1
+    }
+    return result
+}
 
 /**
  * Очень сложная

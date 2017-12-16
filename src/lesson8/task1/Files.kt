@@ -211,8 +211,33 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
  *
  * Обратите внимание: данная функция не имеет возвращаемого значения
  */
+fun noRepetition(line: String): Boolean {
+    var letters = listOf<Char>()
+    for (lineLetter in line) {
+        for (letter in letters) {
+            if (lineLetter == letter) return false
+        }
+        letters += lineLetter
+    }
+    return true
+}
+
 fun chooseLongestChaoticWord(inputName: String, outputName: String) {
-    TODO()
+    val writer = File(outputName).bufferedWriter()
+    var result = ""
+    var maxLength = 0
+    for (line in File(inputName).readLines()) {
+        val len = line.length - maxLength
+        val lowercase = noRepetition(line.toLowerCase())
+        if (len > 0 && lowercase) {
+            result = line
+            maxLength = line.length
+        } else if (len == 0 && lowercase) {
+            result += ", $line"
+        }
+    }
+    writer.write(result)
+    writer.close()
 }
 
 /**
