@@ -2,6 +2,7 @@
 
 package lesson6.task2
 
+import lesson1.task1.sqr
 import lesson3.task1.digitNumber
 
 /**
@@ -219,16 +220,10 @@ fun kingTrajectory(start: Square, end: Square): List<Square> {
     var row = start.row
     val list = mutableListOf(start)
     while (Square(column, row) != end) {
-        column = when {
-            column < end.column -> column + 1
-            column > end.column -> column - 1
-            else -> column
-        }
-        row = when {
-            row < end.row -> row + 1
-            row > end.row -> row - 1
-            else -> row
-        }
+        if (column < end.column) column += 1
+        else if (column > end.column) column -= 1
+        if (row < end.row) row += 1
+        else if (row > end.row) row -= 1
         list.add(Square(column, row))
     }
     return list
@@ -256,25 +251,26 @@ fun kingTrajectory(start: Square, end: Square): List<Square> {
  * Пример: knightMoveNumber(Square(3, 1), Square(6, 3)) = 3.
  * Конь может последовательно пройти через клетки (5, 2) и (4, 4) к клетке (6, 3).
  */
-fun sqr(x: Int) = x * x
 fun knightMoveNumber(start: Square, end: Square): Int {
     if (!start.inside() || !end.inside()) throw IllegalArgumentException()
-        val corner = listOf(Square(1, 1), Square(1, 8),
-                Square(8, 1), Square(8, 8))
-        val distance = sqr(end.row - start.row) + sqr(end.column - start.column)
-        return when {
-            distance == 2 && (start in corner || end in corner) -> 4
-            else -> when (distance) {
-                0 -> 0
-                5 -> 1
-                98 -> 6
-                in listOf(2, 4, 10, 16, 18, 20) -> 2
-                in listOf(1, 9, 13, 17, 25, 29, 37, 41, 45) -> 3
-                in listOf(49, 53, 61, 65, 85) -> 5
-                else -> 4
-            }
+    val corner = listOf(Square(1, 1), Square(1, 8),
+            Square(8, 1), Square(8, 8))
+    val distance = (sqr((end.row - start.row).toDouble())
+            + sqr((end.column - start.column).toDouble())).toInt()
+    return when {
+        distance == 2 && (start in corner || end in corner) -> 4
+        else -> when (distance) {
+            0 -> 0
+            5 -> 1
+            98 -> 6
+            in listOf(2, 4, 10, 16, 18, 20) -> 2
+            in listOf(1, 9, 13, 17, 25, 29, 37, 41, 45) -> 3
+            in listOf(49, 53, 61, 65, 85) -> 5
+            else -> 4
         }
+    }
 }
+
 /**
  * Очень сложная
  *

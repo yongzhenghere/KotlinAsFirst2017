@@ -95,9 +95,8 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
 
     }
 
-    override fun toString(): String =
-            "MatrixImpl(height=$height, width=$width, cellList=$cellList)"
-    /*val sb = StringBuilder()
+    override fun toString(): String {
+        val sb = StringBuilder()
         sb.append("[")
         for (row in 0 until height) {
             sb.append("[")
@@ -108,5 +107,5 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
         }
         sb.append("]")
         return "$sb"
-    }*/
+    }
 }

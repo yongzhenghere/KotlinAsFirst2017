@@ -65,12 +65,12 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
     var i = 0
     var j = -1
     while (num < height * width) {
-        while (j + 1 < width && result[i, j + 1] == 0) {
+        while (j < width - 1 && result[i, j + 1] == 0) {
             j += 1
             num += 1
             result[i, j] = num
         }
-        while (i + 1 < height && result[i + 1, j] == 0) {
+        while (i < height - 1 && result[i + 1, j] == 0) {
             i += 1
             num += 1
             result[i, j] = num
@@ -107,6 +107,11 @@ fun generateRectangles(height: Int, width: Int): Matrix<Int> {
     var n = 2
     while (n <= height / 2) {
         for (column in n - 1..width - n) {
+            if (height % 2 == 1) {
+                val center = height / 2
+                if (result[center, column] == 1 && n == 2)
+                    result[center, column] = Math.min(height, width) / 2 + 1
+            }
             result[n - 1, column] = n
             result[height - n, column] = n
         }
@@ -114,25 +119,16 @@ fun generateRectangles(height: Int, width: Int): Matrix<Int> {
     }
     n = 2
     while (n <= width / 2) {
-        for (low in n - 1..height - n) {
-            result[low, n - 1] = n
-            result[low, width - n] = n
+        for (row in n - 1..height - n) {
+            if (width % 2 == 1) {
+                val center = width / 2
+                if (result[row, center] == 1 && n == 2)
+                    result[row, center] = Math.min(height, width) / 2 + 1
+            }
+            result[row, n - 1] = n
+            result[row, width - n] = n
         }
         n++
-    }
-    if (width % 2 == 1) {
-        val center = width / 2
-        for (row in 1..height - 2) {
-            if (result[row, center] == 1)
-                result[row, center] = Math.min(height, width) / 2 + 1
-        }
-    }
-    if (height % 2 == 1) {
-        val center = height / 2
-        for (column in 1..width - 2) {
-            if (result[center, column] == 1)
-                result[center, column] = Math.min(height, width) / 2 + 1
-        }
     }
     return result
 }
@@ -152,20 +148,20 @@ fun generateRectangles(height: Int, width: Int): Matrix<Int> {
  */
 fun generateSnake(height: Int, width: Int): Matrix<Int> {
     val result = createMatrix(height, width, 0)
-    var staRow = -1
-    var staCol = 1
+    var startRow = -1
+    var startColumn = 1
     var num = 0
     while (num < height * width) {
-        var i = staRow
-        var j = staCol
+        var i = startRow
+        var j = startColumn
         while (i + 1 < height && j >= 1) {
             i += 1
             j -= 1
             num += 1
             result[i, j] = num
         }
-        if (staCol + 1 <= width) staCol += 1
-        else staRow += 1
+        if (startColumn + 1 <= width) startColumn += 1
+        else startRow += 1
     }
     return result
 }
