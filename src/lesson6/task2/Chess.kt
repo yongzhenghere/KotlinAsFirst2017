@@ -4,6 +4,7 @@ package lesson6.task2
 
 import lesson1.task1.sqr
 import lesson3.task1.digitNumber
+import java.util.*
 
 /**
  * Клетка шахматной доски. Шахматная доска квадратная и имеет 8 х 8 клеток.
@@ -251,24 +252,38 @@ fun kingTrajectory(start: Square, end: Square): List<Square> {
  * Пример: knightMoveNumber(Square(3, 1), Square(6, 3)) = 3.
  * Конь может последовательно пройти через клетки (5, 2) и (4, 4) к клетке (6, 3).
  */
-fun knightMoveNumber(start: Square, end: Square): Int {
-    if (!start.inside() || !end.inside()) throw IllegalArgumentException()
-    val corner = listOf(Square(1, 1), Square(1, 8),
-            Square(8, 1), Square(8, 8))
-    val distance = (sqr((end.row - start.row).toDouble())
-            + sqr((end.column - start.column).toDouble())).toInt()
-    return when {
-        distance == 2 && (start in corner || end in corner) -> 4
-        else -> when (distance) {
-            0 -> 0
-            5 -> 1
-            98 -> 6
-            in listOf(2, 4, 10, 16, 18, 20) -> 2
-            in listOf(1, 9, 13, 17, 25, 29, 37, 41, 45) -> 3
-            in listOf(49, 53, 61, 65, 85) -> 5
-            else -> 4
+fun neighbors(n: Square): List<Square> {
+    var point = n
+    val result = mutableListOf<Square>()
+    val list = mutableListOf(Square(n.column + 2, n.row + 1), Square(n.column + 1, n.row + 2),
+            Square(n.column - 2, n.row + 1), Square(n.column - 1, n.row + 2),
+            Square(n.column - 2, n.row + 1), Square(n.column - 2, n.row - 1),
+            Square(n.column - 1, n.row - 2), Square(n.column + 1, n.row - 2),
+            Square(n.column + 2, n.row - 1))
+    for (i in list) {
+        if (i.inside()) {
+            point = i
+            result.add(point)
         }
     }
+    return result
+}
+fun knightMoveNumber(start: Square, end: Square): Int {
+    if (!start.inside() || !end.inside()) throw IllegalArgumentException()
+    val queue = ArrayDeque<Square>()
+    queue.add(start)
+    val visited = mutableMapOf(start to 0)
+    while (queue.isNotEmpty()) {
+        val next = queue.poll()
+        val distance = visited[next]!!
+        if (next == end) return distance
+        for (neighbor in neighbors(next)) {
+            if (neighbor in visited) continue
+            visited.put(neighbor, distance + 1)
+            queue.add(neighbor)
+        }
+    }
+    return -1
 }
 
 /**
